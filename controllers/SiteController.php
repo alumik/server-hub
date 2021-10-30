@@ -64,7 +64,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->session->setFlash('danger', '<h4>重要提示</h4><p>未在本平台登记的服务器作业可能随时被中止。请在服务器上执行不便被中止的操作前在此平台上登记。同时，请不要随意中止此平台上登记的服务器作业。</p>');
+        Yii::$app->session->setFlash('danger', '<h4>重要提示：未在本平台登记的服务器作业随时可能被中止。</h4><p>请在服务器上执行不便被中止的操作前在此平台登记。同时，请不要随意中止此平台上登记的服务器作业。</p>');
         return $this->render('index');
     }
 
