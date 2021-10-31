@@ -12,6 +12,7 @@ $this->title = '登录';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
+
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>欢迎使用南开大学软件学院服务器作业查询平台</p>
@@ -24,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'col-lg-1 col-form-label'],
             'errorOptions' => ['class' => 'invalid-feedback d-block'],
         ],
-    ]); ?>
+    ]) ?>
 
     <?= $form->field($model, 'student_id')->textInput(['autofocus' => true]) ?>
 
@@ -37,5 +38,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end() ?>
+
 </div>

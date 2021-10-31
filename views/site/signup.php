@@ -12,7 +12,9 @@ $this->title = '注册';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-signup">
+
     <h1><?= Html::encode($this->title) ?></h1>
+
     <?php $form = ActiveForm::begin([
         'id' => 'signup-form',
         'layout' => 'horizontal',
@@ -21,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'col-lg-1 col-form-label'],
             'errorOptions' => ['class' => 'invalid-feedback d-block'],
         ],
-    ]); ?>
+    ]) ?>
 
     <?= $form->field($model, 'student_id')->textInput(['autofocus' => true, 'placeholder' => '学号/工号']) ?>
 
@@ -38,5 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end() ?>
+
 </div>

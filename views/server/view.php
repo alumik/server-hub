@@ -4,6 +4,7 @@ use app\models\Duration;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Server */
@@ -13,7 +14,7 @@ use yii\helpers\Html;
 $this->title = $model->name . '作业记录';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->name;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="server-view">
 
@@ -61,6 +62,6 @@ $this->params['breadcrumbs'][] = $model->name;
                 ]
             ],
         ],
-    ]); ?>
+    ]) ?>
 
 </div>

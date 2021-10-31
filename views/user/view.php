@@ -5,6 +5,7 @@ use app\models\Server;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -14,7 +15,7 @@ use yii\widgets\DetailView;
 
 $this->title = '个人中心';
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="user-view">
 
@@ -85,6 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
         ],
-    ]); ?>
+    ]) ?>
 
 </div>

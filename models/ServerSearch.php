@@ -17,7 +17,7 @@ class ServerSearch extends Server
     {
         return [
             [['id'], 'integer'],
-            [['name', 'instance'], 'safe'],
+            ['name', 'safe'],
         ];
     }
 
@@ -61,8 +61,7 @@ class ServerSearch extends Server
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'instance', $this->instance]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

@@ -3,7 +3,7 @@
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap4\ActiveForm */
 
-/* @var $model app\models\SignupForm */
+/* @var $model app\models\UpdatePasswordForm */
 
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = ['label' => '个人中心', 'url' => '/user'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user">
+
     <h1><?= Html::encode($this->title) ?></h1>
+
     <?php $form = ActiveForm::begin([
         'id' => 'signup-form',
         'layout' => 'horizontal',
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'col-lg-1 col-form-label'],
             'errorOptions' => ['class' => 'invalid-feedback d-block'],
         ],
-    ]); ?>
+    ]) ?>
 
     <?= $form->field($model, 'password')->passwordInput(['placeholder' => '大于等于6个字符']) ?>
 
@@ -31,9 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row form-group">
         <div class="col-lg-1"></div>
         <div class="col-lg-11">
-            <?= Html::submitButton('保存', ['class' => 'btn btn-success', 'name' => 'save-button']) ?>
+            <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
         </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end() ?>
+
 </div>

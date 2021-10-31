@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $name
  * @property string $instance
+ * @property string $gpu_instance
  *
  * @property int $jobs
  */
@@ -30,9 +31,9 @@ class Server extends ActiveRecord
     {
         return [
             [['name', 'instance'], 'required'],
-            [['name', 'instance'], 'string', 'max' => 255],
+            [['name', 'instance', 'gpu_instance'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['instance'], 'unique'],
+            [['instance', 'gpu_instance'], 'unique'],
         ];
     }
 
@@ -45,6 +46,7 @@ class Server extends ActiveRecord
             'id' => 'ID',
             'name' => '名称',
             'instance' => '实例',
+            'gpu_instance' => 'GPU 实例',
         ];
     }
 

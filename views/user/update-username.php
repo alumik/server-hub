@@ -13,7 +13,9 @@ $this->params['breadcrumbs'][] = ['label' => '个人中心', 'url' => '/user'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user">
+
     <h1><?= Html::encode($this->title) ?></h1>
+
     <?php $form = ActiveForm::begin([
         'id' => 'update-form',
         'layout' => 'horizontal',
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'labelOptions' => ['class' => 'col-lg-1 col-form-label'],
             'errorOptions' => ['class' => 'invalid-feedback d-block'],
         ],
-    ]); ?>
+    ]) ?>
 
     <?= $form->field($model, 'username')->textInput() ?>
 
@@ -33,5 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php ActiveForm::end(); ?>
+    <?php ActiveForm::end() ?>
+
 </div>

@@ -26,20 +26,31 @@ function formatBytes($bytes)
     return 0;
 }
 
-function threshold($value, $warning, $danger)
+function getBackgroundColorClass($value, $warning, $danger)
 {
-    if ($value < $warning) {
-        return 'bg-success';
-    }
-    if ($value < $danger) {
-        return 'bg-warning';
-    }
+    if ($value < $warning) return 'bg-success';
+    if ($value < $danger) return 'bg-warning';
     return 'bg-danger';
 }
 
-function percentage($value)
+function formatPercentage($value)
 {
     return number_format($value, 2) . '%';
+}
+
+function gauge($instance, $values, $thresholds)
+{
+    if (!key_exists($instance, $values)) {
+        return 'N/A';
+    }
+    $percent = $values[$instance] * 100;
+    $class = getBackgroundColorClass($percent, $thresholds[0], $thresholds[1]);
+    return Progress::widget([
+        'percent' => $percent,
+        'barOptions' => ['class' => $class],
+        'options' => ['class' => 'bg-secondary'],
+        'label' => formatPercentage($percent),
+    ]);
 }
 
 $this->registerJs('
@@ -68,85 +79,53 @@ $this->registerJs('
             [
                 'label' => 'CPU 使用',
                 'value' => function ($model) use ($cpuUsage) {
-                    if (key_exists($model->instance, $cpuUsage)) {
-                        $percent = $cpuUsage[$model->instance] * 100;
-                        $class = threshold($percent, 70, 90);
-                        return Progress::widget([
-                            'percent' => $percent,
-                            'barOptions' => ['class' => $class],
-                            'options' => ['class' => 'bg-secondary'],
-                            'label' => percentage($percent),
-                        ]);
-                    }
-                    return 'N/A';
+                    return gauge($model->instance, $cpuUsage, [70, 90]);
                 },
                 'format' => 'html',
             ],
             [
                 'label' => '平均负载',
                 'value' => function ($model) use ($nodeLoad5) {
-                    if (key_exists($model->instance, $nodeLoad5)) {
-                        $percent = $nodeLoad5[$model->instance] * 100;
-                        $class = threshold($percent, 100, 500);
-                        return Progress::widget([
-                            'percent' => $percent,
-                            'barOptions' => ['class' => $class],
-                            'options' => ['class' => 'bg-secondary'],
-                            'label' => percentage($percent),
-                        ]);
-                    }
-                    return 'N/A';
+                    return gauge($model->instance, $nodeLoad5, [100, 500]);
                 },
-                'format' => 'html',
                 'headerOptions' => [
                     'data-toggle' => 'tooltip',
-                    'data-placement' => 'top', // top, bottom, left, right
-                    'data-container' => 'body', // to prevent breaking table on hover
+                    'data-placement' => 'top',
+                    'data-container' => 'body',
                     'title' => '平均负载定义为5分钟内平均进程数/CPU逻辑核心数。平均负载大于100%表明服务器负载过大，大于500%则不应在服务器上执行更多任务。',
-                ]
+                ],
+                'format' => 'html',
             ],
             [
                 'label' => '内存使用',
                 'value' => function ($model) use ($memUsage) {
-                    if (key_exists($model->instance, $memUsage)) {
-                        $percent = $memUsage[$model->instance] * 100;
-                        $class = threshold($percent, 70, 90);
-                        return Progress::widget([
-                            'percent' => $percent,
-                            'barOptions' => ['class' => $class],
-                            'options' => ['class' => 'bg-secondary'],
-                            'label' => percentage($percent),
-                        ]);
-                    }
-                    return 'N/A';
+                    return gauge($model->instance, $memUsage, [70, 90]);
                 },
                 'format' => 'html',
             ],
             [
                 'label' => '可用显存（点击查看详情）',
                 'value' => function ($model) use ($freeGpuMem) {
-                    $instance = substr_replace($model->instance, '9835', -4);
-                    if (!array_key_exists($instance, $freeGpuMem)) {
+                    $instance = $model->gpu_instance;
+                    if (!$instance || !key_exists($instance, $freeGpuMem)) {
                         return 'N/A';
                     }
                     $gpuDashboard = '';
-                    foreach ($freeGpuMem[$instance] as $uuid => $gpu) {
-                        if ($gpu > 24 * 1024 * 1024 * 1024) {
-                            $class = 'text-success';
-                        } elseif ($gpu < 2 * 1024 * 1024 * 1024) {
+                    foreach ($freeGpuMem[$instance] as $uuid => $_freeGpuMem) {
+                        if ($_freeGpuMem < 2 * 1024 * 1024 * 1024) {
                             $class = 'text-danger';
-                        } elseif ($gpu < 4 * 1024 * 1024 * 1024) {
+                        } elseif ($_freeGpuMem < 4 * 1024 * 1024 * 1024) {
                             $class = 'text-warning';
-                        } else {
+                        } elseif ($_freeGpuMem < 24 * 1024 * 1024 * 1024) {
                             $class = 'text-dark';
+                        } else {
+                            $class = 'text-success';
                         }
-                        $gpuDashboard .= '<span class="' . $class . '">';
                         $gpuDashboard .= Html::a(
-                            formatBytes($gpu),
+                            formatBytes($_freeGpuMem),
                             ['/server/gpu-dashboard', 'instance' => $instance, 'uuid' => $uuid],
                             ['class' => $class]
                         );
-                        $gpuDashboard .= '</span>';
                         $gpuDashboard .= ' / ';
                     }
                     return substr($gpuDashboard, 0, -3);
@@ -162,7 +141,7 @@ $this->registerJs('
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {dashboard}',
                 'buttons' => [
-                    'view' => function ($url, $model) {
+                    'view' => function ($url) {
                         return Html::a('查看当前作业', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                     'dashboard' => function ($url, $model) {
@@ -175,7 +154,7 @@ $this->registerJs('
                 ],
             ],
         ],
-    ]); ?>
+    ]) ?>
     <?php Pjax::end() ?>
 
 </div>
