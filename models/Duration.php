@@ -2,17 +2,15 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "duration".
  *
  * @property int $id
  * @property string $name
- *
- * @property Job[] $jobs
  */
-class Duration extends \yii\db\ActiveRecord
+class Duration extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -32,26 +30,5 @@ class Duration extends \yii\db\ActiveRecord
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-        ];
-    }
-
-    /**
-     * Gets query for [[Jobs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getJobs()
-    {
-        return $this->hasMany(Job::className(), ['id_duration' => 'id']);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -8,19 +9,17 @@ use yii\widgets\DetailView;
 
 $this->title = '作业记录详情';
 $this->params['breadcrumbs'][] = ['label' => '作业记录', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->params['breadcrumbs'][] = $model->id;
+YiiAsset::register($this);
 ?>
 <div class="job-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (Yii::$app->user->identity->getId() == $model->id_user): ?>
-
-    <p>
-        <?= Html::a('更新作业记录', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-    </p>
-
+    <?php if (Yii::$app->user->id == $model->id_user): ?>
+        <p>
+            <?= Html::a('更新作业记录', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        </p>
     <?php endif ?>
 
     <?= DetailView::widget([

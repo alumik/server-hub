@@ -44,7 +44,7 @@ class UpdatePasswordForm extends Model
             return null;
         }
 
-        $user = User::findIdentity(Yii::$app->user->identity->getId());
+        $user = User::findIdentity(Yii::$app->user->id);
         $user->setPassword($this->password);
         $user->updated_at = time();
         return $user->save() ? $user : null;

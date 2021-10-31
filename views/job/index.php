@@ -21,8 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('新建作业记录', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -54,11 +52,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update}',
                 'buttons' => [
-                    'view' => function ($url, $model) {
+                    'view' => function ($url) {
                         return Html::a('查看', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                     'update' => function ($url, $model) {
-                        if (Yii::$app->user->identity->getId() == $model->id_user) {
+                        if (Yii::$app->user->id == $model->id_user) {
                             return Html::a('更新', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                         }
                         return '';
@@ -67,6 +65,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-
 
 </div>

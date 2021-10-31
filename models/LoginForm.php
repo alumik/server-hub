@@ -15,7 +15,6 @@ class LoginForm extends Model
 {
     public $student_id;
     public $password;
-    public $rememberMe = true;
 
     private $_user = false;
 
@@ -28,8 +27,6 @@ class LoginForm extends Model
         return [
             // student_id and password are both required
             [['student_id', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -40,7 +37,6 @@ class LoginForm extends Model
         return [
             'student_id' => '账号',
             'password' => '密码',
-            'rememberMe' => '30天内自动登录'
         ];
     }
 
@@ -57,7 +53,7 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, '账号或密码不正确');
+                $this->addError($attribute, '账号或密码不正确。');
             }
         }
     }
@@ -69,7 +65,7 @@ class LoginForm extends Model
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            return Yii::$app->user->login($this->getUser(), 3600 * 24 * 30);
         }
         return false;
     }

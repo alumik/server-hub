@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Server;
 
 /**
  * ServerSearch represents the model behind the search form of `app\models\Server`.
@@ -46,7 +45,7 @@ class ServerSearch extends Server
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['name' => SORT_ASC]],
+            'sort' => ['defaultOrder' => ['name' => SORT_ASC]],
         ]);
 
         $this->load($params);

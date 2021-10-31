@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "server".
@@ -11,9 +11,9 @@ use Yii;
  * @property string $name
  * @property string $instance
  *
- * @property Job[] $jobs
+ * @property int $jobs
  */
-class Server extends \yii\db\ActiveRecord
+class Server extends ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -48,13 +48,8 @@ class Server extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Jobs]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getJobs()
     {
-        return $this->hasMany(Job::className(), ['id_server' => 'id']);
+        return $this->hasMany(Job::class, ['id_server' => 'id'])->count();
     }
 }

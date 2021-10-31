@@ -42,20 +42,22 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
         $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
         $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
+    }
+
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav mr-auto'],
+        'items' => $menuItems,
+    ]);
+
+    if (!Yii::$app->user->isGuest) {
+        echo Html::beginForm(['/site/logout'], 'post', ['class' => 'form-inline'])
             . Html::submitButton(
                 '注销 (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link logout']
             )
-            . Html::endForm()
-            . '</li>';
+            . Html::endForm();
     }
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav'],
-        'items' => $menuItems,
-    ]);
     NavBar::end();
     ?>
 </header>

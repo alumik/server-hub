@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
 
 $this->title = '新建作业记录';
 $this->params['breadcrumbs'][] = ['label' => '作业记录', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = '新建';
 ?>
 <div class="job-create">
 
@@ -19,11 +19,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="job-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin() ?>
 
-        <?= $form->field($model, 'id_duration')->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
+        <?= $form
+            ->field($model, 'id_duration')
+            ->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
 
-        <?= $form->field($model, 'id_server')->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
+        <?= $form
+            ->field($model, 'id_server')
+            ->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
 
         <?= $form->field($model, 'description')->textarea(['rows' => 8]) ?>
 
@@ -31,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
         </div>
 
-        <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end() ?>
 
     </div>
 

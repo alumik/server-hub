@@ -35,6 +35,12 @@ class ServerController extends Controller
         ];
     }
 
+    private function queryPrometheus($request, $query, $from = 'metric.instance', $group = null)
+    {
+        $response = $request->setData(['query' => $query])->send();
+        return ArrayHelper::map($response->data['data']['result'], $from, 'value.1', $group);
+    }
+
     /**
      * Lists all Server models.
      * @return mixed
@@ -48,40 +54,14 @@ class ServerController extends Controller
         $request = $client->createRequest()
             ->setMethod('GET')
             ->setUrl('http://10.10.1.210:9090/api/v1/query');
-
-        $response = $request
-            ->setData(['query' => 'nvidia_smi_memory_total_bytes-nvidia_smi_memory_used_bytes'])
-            ->send();
-        $freeGpuMem = $response->data['data']['result'];
-        $freeGpuMem = ArrayHelper::map($freeGpuMem, 'metric.uuid', 'value.1', 'metric.instance');
-
-        $response = $request
-            ->setData(['query' => '1-node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes'])
-            ->send();
-        $memUsage = $response->data['data']['result'];
-        $memUsage = ArrayHelper::map($memUsage, 'metric.instance', 'value.1');
-
-        $response = $request
-            ->setData(['query' => '1-avg(rate(node_cpu_seconds_total{mode="idle"}[2m]))by(instance)'])
-            ->send();
-        $cpuUsage = $response->data['data']['result'];
-        $cpuUsage = ArrayHelper::map($cpuUsage, 'metric.instance', 'value.1');
-
-        $response = $request
-            ->setData(['query' => 'count(node_cpu_seconds_total{mode="system"})by(instance)'])
-            ->send();
-        $cpuCores = $response->data['data']['result'];
-        $cpuCores = ArrayHelper::map($cpuCores, 'metric.instance', 'value.1');
-
-        $response = $request
-            ->setData(['query' => 'node_load5'])
-            ->send();
-        $nodeLoad5 = $response->data['data']['result'];
-        $nodeLoad5 = ArrayHelper::map($nodeLoad5, 'metric.instance', 'value.1');
-
-        foreach ($cpuCores as $instance => $cpuCore) {
-            $nodeLoad5[$instance] =  $nodeLoad5[$instance] / $cpuCore;
-        }
+        $freeGpuMem = $this->queryPrometheus(
+            $request, 'nvidia_smi_memory_total_bytes-nvidia_smi_memory_used_bytes', 'metric.uuid', 'metric.instance');
+        $memUsage = $this->queryPrometheus(
+            $request, '1-node_memory_MemAvailable_bytes/node_memory_MemTotal_bytes');
+        $cpuUsage = $this->queryPrometheus(
+            $request, '1-avg(rate(node_cpu_seconds_total{mode="idle"}[2m]))by(instance)');
+        $nodeLoad5 = $this->queryPrometheus(
+            $request, 'node_load5/on(instance)count(node_cpu_seconds_total{mode="system"})by(instance)');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -142,6 +122,6 @@ class ServerController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('未找到相关服务器。');
     }
 }

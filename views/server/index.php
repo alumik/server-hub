@@ -1,6 +1,5 @@
 <?php
 
-use app\models\Job;
 use yii\bootstrap4\Progress;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
@@ -23,9 +22,8 @@ function formatBytes($bytes)
         $i = floor(log($bytes) / log(1024));
         $sizes = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
         return sprintf('%.02F', round($bytes / pow(1024, $i), 1)) * 1 . ' ' . @$sizes[$i];
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 function threshold($value, $warning, $danger)
@@ -157,13 +155,7 @@ $this->registerJs('
             ],
             [
                 'label' => '当前作业',
-                'value' => function ($model) {
-                    return Job::find()
-                        ->select('*')
-                        ->from(Job::tableName())
-                        ->where(['id_server' => $model->id, 'status' => Job::STATUS_ACTIVE])
-                        ->count();
-                },
+                'value' => 'jobs',
                 'headerOptions' => ['style' => 'width:100px'],
             ],
             [

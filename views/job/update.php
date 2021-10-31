@@ -20,13 +20,17 @@ $this->params['breadcrumbs'][] = '更新';
 
     <div class="job-form">
 
-        <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin() ?>
 
         <?= $form->field($model, 'status')->dropdownList(['进行中', '已完成', '已失效']) ?>
 
-        <?= $form->field($model, 'id_duration')->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
+        <?= $form
+            ->field($model, 'id_duration')
+            ->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
 
-        <?= $form->field($model, 'id_server')->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
+        <?= $form
+            ->field($model, 'id_server')
+            ->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
 
         <?= $form->field($model, 'description')->textarea(['rows' => 8]) ?>
 
@@ -34,7 +38,7 @@ $this->params['breadcrumbs'][] = '更新';
             <?= Html::submitButton('保存', ['class' => 'btn btn-success']) ?>
         </div>
 
-        <?php ActiveForm::end(); ?>
+        <?php ActiveForm::end() ?>
 
     </div>
 

@@ -28,8 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'password_repeat')->passwordInput() ?>
 
-    <div class="form-group">
-        <div class="offset-lg-1">
+    <div class="row form-group">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-11">
             <?= Html::submitButton('保存', ['class' => 'btn btn-success', 'name' => 'save-button']) ?>
         </div>
     </div>

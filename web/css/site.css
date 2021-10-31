@@ -59,28 +59,28 @@ a.desc:after {
 }
 
 /* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
+button.logout {
     padding-top: 7px;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.5);
 }
 
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
+@media (max-width: 767px) {
+    button.logout {
+        display: block;
         text-align: left;
         width: 100%;
         padding: 10px 0;
     }
 }
 
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
+button.logout:focus,
+button.logout:hover {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.75);
 }
 
-.nav > li > form > button.logout:focus {
+button.logout:focus {
     outline: none;
 }
 
@@ -102,4 +102,13 @@ a.desc:after {
 
 td {
     vertical-align: middle !important;
+}
+
+.dashboard {
+    width: 100%;
+    height: calc(100vh - 56px);
+    border: none;
+    position: fixed;
+    left: 0;
+    top: 56px;
 }

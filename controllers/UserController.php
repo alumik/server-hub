@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Job;
 use app\models\JobSearch;
 use app\models\UpdatePasswordForm;
 use app\models\User;
@@ -33,16 +32,12 @@ class UserController extends Controller
         ];
     }
 
-    /**
-     * Lists all User models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $user = Yii::$app->user->identity;
         $searchModel = new JobSearch();
         $params = $this->request->queryParams;
-        $params['JobSearch']['id_user'] = $user->getId();
+        $params['JobSearch']['id_user'] = $user->id;
         $dataProvider = $searchModel->search($params);
         return $this->render('view', [
             'model' => $user,
@@ -63,6 +58,23 @@ class UserController extends Controller
         }
 
         return $this->render('update-password', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionUpdateUsername()
+    {
+        $model = User::findIdentity(Yii::$app->user->id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->updated_at = time();
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', '姓名更新成功。');
+                return $this->redirect('/user');
+            }
+        }
+
+        return $this->render('update-username', [
             'model' => $model,
         ]);
     }

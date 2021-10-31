@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * This is the model class for table "job".
@@ -14,7 +14,6 @@ use Yii;
  * @property int $updated_at
  * @property int $id_server
  * @property int $id_user
- * @property int $id_editor
  * @property int $id_duration
  *
  * @property Server $server
@@ -44,9 +43,9 @@ class Job extends \yii\db\ActiveRecord
             [['description', 'created_at', 'updated_at', 'id_server', 'id_user', 'id_duration'], 'required'],
             [['description'], 'string'],
             [['status', 'created_at', 'updated_at', 'id_server', 'id_user', 'id_duration'], 'integer'],
-            [['id_server'], 'exist', 'skipOnError' => true, 'targetClass' => Server::className(), 'targetAttribute' => ['id_server' => 'id']],
-            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
-            [['id_duration'], 'exist', 'skipOnError' => true, 'targetClass' => Duration::className(), 'targetAttribute' => ['id_duration' => 'id']],
+            [['id_server'], 'exist', 'skipOnError' => true, 'targetClass' => Server::class, 'targetAttribute' => ['id_server' => 'id']],
+            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
+            [['id_duration'], 'exist', 'skipOnError' => true, 'targetClass' => Duration::class, 'targetAttribute' => ['id_duration' => 'id']],
         ];
     }
 
@@ -70,30 +69,30 @@ class Job extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Server]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getServer()
     {
-        return $this->hasOne(Server::className(), ['id' => 'id_server']);
+        return $this->hasOne(Server::class, ['id' => 'id_server']);
     }
 
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'id_user']);
+        return $this->hasOne(User::class, ['id' => 'id_user']);
     }
 
     /**
      * Gets query for [[Duration]].
      *
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getDuration()
     {
-        return $this->hasOne(Duration::className(), ['id' => 'id_duration']);
+        return $this->hasOne(Duration::class, ['id' => 'id_duration']);
     }
 }

@@ -81,8 +81,9 @@ class JobController extends Controller
             $model->updated_at = $now;
             $model->created_at = $now;
             $model->status = Job::STATUS_ACTIVE;
-            $model->id_user = Yii::$app->user->identity->getId();
+            $model->id_user = Yii::$app->user->id;
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', '作业记录创建成功。');
                 return $this->redirect('/job');
             }
         } else {
@@ -104,12 +105,13 @@ class JobController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if (Yii::$app->user->identity->getId() != $model->id_user) {
+        if (Yii::$app->user->id != $model->id_user) {
             throw new ForbiddenHttpException('你没有修改该条记录的权限。');
         }
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->updated_at = time();
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', '作业记录更新成功。');
                 return $this->redirect('/job');
             }
         }

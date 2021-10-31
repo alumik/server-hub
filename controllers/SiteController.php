@@ -2,14 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\LoginForm;
 use app\models\SignupForm;
 use Yii;
 use yii\filters\AccessControl;
-use yii\httpclient\Client;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
 
 class SiteController extends Controller
 {
@@ -64,7 +63,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        Yii::$app->session->setFlash('danger', '<h4>重要提示：未在本平台登记的服务器作业随时可能被中止。</h4><p>请在服务器上执行不便被中止的操作前在此平台登记。同时，请不要随意中止此平台上登记的服务器作业。</p>');
+        Yii::$app->session->setFlash(
+            'danger',
+            '<h4>重要提示：未在本平台登记的服务器作业可能被中止</h4>' .
+            '<p>请在服务器上执行不便被中止的操作前在此平台登记。同时，请不要随意中止此平台上登记的服务器作业。</p>'
+        );
         return $this->render('index');
     }
 
@@ -74,7 +77,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
+                if (Yii::$app->user->login($user)) {
                     return $this->goHome();
                 }
             }
