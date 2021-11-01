@@ -11,6 +11,7 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -121,6 +122,18 @@ class ServerController extends Controller
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionConsole($id)
+    {
+        $model = $this->findModel($id);
+        if (!$model->console_enabled) {
+            throw new ForbiddenHttpException('该服务器的控制台功能未启用。');
+        }
+
+        return $this->render('console', [
+            'model' => $model,
         ]);
     }
 

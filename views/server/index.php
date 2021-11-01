@@ -82,6 +82,7 @@ $this->registerJs('
                     return gauge($model->instance, $cpuUsage, [70, 90]);
                 },
                 'format' => 'html',
+                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '平均负载',
@@ -93,6 +94,7 @@ $this->registerJs('
                     'data-placement' => 'top',
                     'data-container' => 'body',
                     'title' => '平均负载定义为5分钟内平均进程数/CPU逻辑核心数。平均负载大于100%表明服务器负载过大，大于500%则不应在服务器上执行更多任务。',
+                    'style' => 'width:110px'
                 ],
                 'format' => 'html',
             ],
@@ -102,6 +104,7 @@ $this->registerJs('
                     return gauge($model->instance, $memUsage, [70, 90]);
                 },
                 'format' => 'html',
+                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '可用显存（点击查看详情）',
@@ -133,13 +136,13 @@ $this->registerJs('
                 'format' => 'raw',
             ],
             [
-                'label' => '当前作业',
+                'label' => '作业数',
                 'value' => 'jobs',
                 'headerOptions' => ['style' => 'width:100px'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {process} {dashboard}',
+                'template' => '{view} {process} {dashboard} {console}',
                 'buttons' => [
                     'view' => function ($url) {
                         return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary']);
@@ -153,6 +156,16 @@ $this->registerJs('
                             ['/server/dashboard', 'instance' => $model->instance],
                             ['class' => 'btn btn-sm btn-outline-primary']
                         );
+                    },
+                    'console' => function ($url, $model) {
+                        if ($model->console_enabled) {
+                            return Html::a(
+                                '控制台',
+                                ['/server/console', 'id' => $model->id],
+                                ['class' => 'btn btn-sm btn-outline-primary']
+                            );
+                        }
+                        return false;
                     },
                 ],
             ],

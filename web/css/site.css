@@ -112,3 +112,9 @@ td {
     left: 0;
     top: 56px;
 }
+
+.console {
+    width: 100%;
+    height: calc(100vh - 220px);
+    border: none;
+}
