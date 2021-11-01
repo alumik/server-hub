@@ -1,5 +1,7 @@
 <?php
 
+use yii\widgets\LinkPager;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -13,6 +15,11 @@ $config = [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
+    ],
+    'container' => [
+        'definitions' => [
+            LinkPager::class => \yii\bootstrap4\LinkPager::class,
+        ],
     ],
     'components' => [
         'request' => [

@@ -11,6 +11,8 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $instance
  * @property string $gpu_instance
+ * @property string $ip
+ * @property string $ssh_user
  *
  * @property int $jobs
  */
@@ -30,10 +32,9 @@ class Server extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'instance'], 'required'],
-            [['name', 'instance', 'gpu_instance'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-            [['instance', 'gpu_instance'], 'unique'],
+            [['name', 'instance', 'ip', 'ssh_user'], 'required'],
+            [['name', 'instance', 'gpu_instance', 'ip', 'ssh_user'], 'string', 'max' => 255],
+            [['name', 'instance', 'gpu_instance', 'ip'], 'unique'],
         ];
     }
 
@@ -47,6 +48,8 @@ class Server extends ActiveRecord
             'name' => '名称',
             'instance' => '实例',
             'gpu_instance' => 'GPU 实例',
+            'ip' => 'IP',
+            'ssh_user' => 'SSH 用户名',
         ];
     }
 

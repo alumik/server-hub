@@ -13,7 +13,8 @@ use yii\web\YiiAsset;
 
 $this->title = $model->name . '作业记录';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $model->name;
+$this->params['breadcrumbs'][] = $model->id;
+$this->params['breadcrumbs'][] = '作业';
 YiiAsset::register($this);
 ?>
 <div class="server-view">

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Job;
 use app\models\JobSearch;
+use app\models\ProcessSearch;
 use app\models\Server;
 use app\models\ServerSearch;
 use yii\filters\AccessControl;
@@ -106,6 +107,20 @@ class ServerController extends Controller
         return $this->render('gpu-dashboard', [
             'instance' => $instance,
             'uuid' => $uuid,
+        ]);
+    }
+
+    public function actionProcess($id)
+    {
+        $model = $this->findModel($id);
+        $params = $this->request->queryParams;
+        $searchModel = new ProcessSearch();
+        $dataProvider = $searchModel->search($params, $model);
+
+        return $this->render('process', [
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 

@@ -139,10 +139,13 @@ $this->registerJs('
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {dashboard}',
+                'template' => '{view} {process} {dashboard}',
                 'buttons' => [
                     'view' => function ($url) {
-                        return Html::a('查看当前作业', $url, ['class' => 'btn btn-sm btn-outline-primary']);
+                        return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary']);
+                    },
+                    'process' => function ($url) {
+                        return Html::a('当前进程', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                     'dashboard' => function ($url, $model) {
                         return Html::a(
