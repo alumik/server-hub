@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>欢迎使用南开大学软件学院服务器作业查询平台</p>
+    <p>欢迎使用南开大学软件学院服务器作业管理平台</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',

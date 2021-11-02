@@ -6,7 +6,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'name' => '服务器作业查询平台',
+    'name' => '服务器作业管理平台',
     'language' => 'zh-CN',
     'timeZone' => 'Asia/Shanghai',
     'id' => 'basic',
