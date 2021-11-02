@@ -37,6 +37,10 @@ function formatTime($value)
     return "${d}天 $h:$m:$s";
 }
 
+$this->registerJs('
+    $(function () {
+        $("[data-toggle=\"tooltip\"]").tooltip()
+    })', $this::POS_END, 'tooltips');
 ?>
 <div class="server-index">
 
@@ -64,6 +68,12 @@ function formatTime($value)
                 'value' => function ($model) {
                     return formatPercentage($model['pcpu']);
                 },
+                'headerOptions' => [
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                    'data-container' => 'body',
+                    'title' => '进程使用的 CPU 时间除以进程运行的时间，并非实时 CPU 使用情况。',
+                ],
             ],
             [
                 'attribute' => 'rss',
@@ -82,6 +92,14 @@ function formatTime($value)
             [
                 'attribute' => 'comm',
                 'label' => '命令',
+                'contentOptions' => function ($model) {
+                    return [
+                        'data-toggle' => 'tooltip',
+                        'data-placement' => 'top',
+                        'data-container' => 'body',
+                        'title' => $model['cmd'],
+                    ];
+                },
             ],
         ],
     ]) ?>

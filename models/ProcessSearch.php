@@ -17,12 +17,13 @@ class ProcessSearch extends Model
     public $pid;
     public $user;
     public $comm;
+    public $cmd;
 
 
     public function rules()
     {
         return [
-            [['user', 'comm'], 'string'],
+            [['user', 'comm', 'cmd'], 'string'],
             ['pid', 'integer'],
         ];
     }
@@ -58,13 +59,15 @@ class ProcessSearch extends Model
                     'pcpu' => ['default' => SORT_DESC],
                     'rss' => ['default' => SORT_DESC],
                     'etimes' => ['default' => SORT_DESC],
-                    'comm'
+                    'comm',
+                    'cmd',
                 ],
                 'defaultOrder' => ['pcpu' => SORT_DESC],
             ],
-            'pagination' => [
-                'pageSize' => 20,
-            ],
+//            'pagination' => [
+//                'pageSize' => 20,
+//            ],
+            'pagination' => false,
         ]);
     }
 
@@ -82,7 +85,7 @@ class ProcessSearch extends Model
             throw new UnauthorizedHttpException('服务器鉴权失败。');
         }
 
-        $output = $ssh->exec('ps --no-headers -eo pid,user:30,pcpu,rss,etimes,comm --sort -pcpu | tr -s " "');
+        $output = $ssh->exec('ps --no-headers -eo pid,user:30,pcpu,rss,etimes,comm,cmd --sort -pcpu | tr -s " "');
         $data = str_getcsv($output, "\n");
         foreach ($data as &$row) {
             $exploded = str_getcsv(trim($row), ' ');
@@ -93,6 +96,7 @@ class ProcessSearch extends Model
             $row['rss'] = $exploded[3];
             $row['etimes'] = $exploded[4];
             $row['comm'] = $exploded[5];
+            $row['cmd'] = implode(' ', array_slice($exploded, 6));
         }
 
         if ($this->_filtered) {
@@ -106,6 +110,9 @@ class ProcessSearch extends Model
                 }
                 if (!empty($this->comm)) {
                     $conditions[] = strpos($value['comm'], $this->comm) !== false;
+                }
+                if (!empty($this->cmd)) {
+                    $conditions[] = strpos($value['cmd'], $this->cmd) !== false;
                 }
                 return array_product($conditions);
             });
