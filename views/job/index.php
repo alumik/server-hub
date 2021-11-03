@@ -36,13 +36,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '所有者',
+                'headerOptions' => ['style' => 'width: 120px'],
             ],
             [
                 'attribute' => 'id_server',
                 'value' => 'server.name',
                 'filter' => ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name'),
             ],
-            'description:ntext',
+            [
+                'attribute' => 'description',
+                'contentOptions' => ['class' => 'truncate'],
+            ],
             [
                 'attribute' => 'id_duration',
                 'value' => 'duration.name',

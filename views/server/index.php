@@ -56,7 +56,7 @@ function gauge($instance, $values, $thresholds)
 $this->registerJs(
     'setInterval(function(){  
          $.pjax.reload({container:"#server"})
-    }, 5000)',
+    }, 10000)',
     $this::POS_HEAD
 );
 ?>
@@ -64,10 +64,13 @@ $this->registerJs(
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        数据每隔十秒自动刷新
+    </p>
+
     <?php Pjax::begin(['id' => 'server']) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'name',
@@ -79,12 +82,14 @@ $this->registerJs(
                     return gauge($model->instance, $cpuUsage, [70, 90]);
                 },
                 'format' => 'html',
+                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '平均负载',
                 'value' => function ($model) use ($nodeLoad5) {
                     return gauge($model->instance, $nodeLoad5, [100, 500]);
                 },
+                'headerOptions' => ['style' => 'width:110px'],
                 'format' => 'html',
             ],
             [
@@ -93,6 +98,7 @@ $this->registerJs(
                     return gauge($model->instance, $memUsage, [70, 90]);
                 },
                 'format' => 'html',
+                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '可用显存（点击查看详情）',

@@ -67,7 +67,10 @@ YiiAsset::register($this);
                 'value' => 'server.name',
                 'filter' => ArrayHelper::map(Server::find()->all(), 'id', 'name'),
             ],
-            'description:ntext',
+            [
+                'attribute' => 'description',
+                'contentOptions' => ['class' => 'truncate'],
+            ],
             [
                 'attribute' => 'id_duration',
                 'value' => 'duration.name',

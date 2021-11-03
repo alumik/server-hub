@@ -118,3 +118,10 @@ td {
     height: calc(100vh - 220px);
     border: none;
 }
+
+.truncate {
+    max-width: 250px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

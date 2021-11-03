@@ -40,8 +40,12 @@ YiiAsset::register($this);
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '所有者',
+                'headerOptions' => ['style' => 'width:110px'],
             ],
-            'description:ntext',
+            [
+                'attribute' => 'description',
+                'contentOptions' => ['class' => 'truncate'],
+            ],
             [
                 'attribute' => 'id_duration',
                 'value' => 'duration.name',
