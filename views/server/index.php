@@ -53,15 +53,12 @@ function gauge($instance, $values, $thresholds)
     ]);
 }
 
-$this->registerJs('
-    $(function () {
-        $("[data-toggle=\"tooltip\"]").tooltip()
-    })', $this::POS_END, 'tooltips');
-
-$this->registerJs(' 
-    setInterval(function(){  
-         $.pjax.reload({container:"#server"});
-    }, 5000);', $this::POS_HEAD);
+$this->registerJs(
+    'setInterval(function(){  
+         $.pjax.reload({container:"#server"})
+    }, 5000)',
+    $this::POS_HEAD
+);
 ?>
 <div class="server-index">
 
@@ -82,20 +79,12 @@ $this->registerJs('
                     return gauge($model->instance, $cpuUsage, [70, 90]);
                 },
                 'format' => 'html',
-                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '平均负载',
                 'value' => function ($model) use ($nodeLoad5) {
                     return gauge($model->instance, $nodeLoad5, [100, 500]);
                 },
-                'headerOptions' => [
-                    'data-toggle' => 'tooltip',
-                    'data-placement' => 'top',
-                    'data-container' => 'body',
-                    'title' => '平均负载定义为5分钟内平均进程数/CPU逻辑核心数。平均负载大于100%表明服务器负载过大，大于500%则不应在服务器上执行更多任务。',
-                    'style' => 'width:110px'
-                ],
                 'format' => 'html',
             ],
             [
@@ -104,7 +93,6 @@ $this->registerJs('
                     return gauge($model->instance, $memUsage, [70, 90]);
                 },
                 'format' => 'html',
-                'headerOptions' => ['style' => 'width:110px'],
             ],
             [
                 'label' => '可用显存（点击查看详情）',
@@ -172,5 +160,9 @@ $this->registerJs('
         ],
     ]) ?>
     <?php Pjax::end() ?>
+
+    <p>
+        注：<strong>平均负载</strong>定义为 5 分钟内平均进程数与 CPU 逻辑核心数之比。平均负载大于 100% 表明服务器负载过大，大于 500% 则不应在服务器上执行更多任务。
+    </p>
 
 </div>

@@ -42,6 +42,12 @@ $this->registerJs('
         $("[data-toggle=\"tooltip\"]").tooltip()
     })', $this::POS_END, 'tooltips');
 ?>
+<style>
+    .tooltip-inner {
+        max-width: 720px;
+    }
+</style>
+
 <div class="server-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
