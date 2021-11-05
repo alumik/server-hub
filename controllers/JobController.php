@@ -43,6 +43,7 @@ class JobController extends Controller
         $params = $this->request->queryParams;
         $params['JobSearch']['status'] = Job::STATUS_ACTIVE;
         $dataProvider = $searchModel->search($params);
+        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -58,6 +59,8 @@ class JobController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -84,7 +87,7 @@ class JobController extends Controller
             $model->id_user = Yii::$app->user->id;
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '作业记录创建成功。');
-                return $this->redirect('/job');
+                return $this->redirect(Yii::$app->session->get('userView' . Yii::$app->user->id . 'returnURL') ?: '/job');
             }
         } else {
             $model->loadDefaultValues();
@@ -112,7 +115,7 @@ class JobController extends Controller
             $model->updated_at = time();
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '作业记录更新成功。');
-                return $this->redirect('/job');
+                return $this->redirect(Yii::$app->session->get('userView' . Yii::$app->user->id . 'returnURL') ?: '/job');
             }
         }
 

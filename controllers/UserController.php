@@ -39,6 +39,8 @@ class UserController extends Controller
         $params = $this->request->queryParams;
         $params['JobSearch']['id_user'] = $user->id;
         $dataProvider = $searchModel->search($params);
+        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
+
         return $this->render('view', [
             'model' => $user,
             'searchModel' => $searchModel,

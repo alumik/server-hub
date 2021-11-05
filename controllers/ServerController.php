@@ -7,6 +7,7 @@ use app\models\JobSearch;
 use app\models\ProcessSearch;
 use app\models\Server;
 use app\models\ServerSearch;
+use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
@@ -88,6 +89,7 @@ class ServerController extends Controller
         $params['JobSearch']['status'] = Job::STATUS_ACTIVE;
         $params['JobSearch']['id_server'] = $id;
         $dataProvider = $searchModel->search($params);
+        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
