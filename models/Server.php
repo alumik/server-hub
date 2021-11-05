@@ -58,6 +58,6 @@ class Server extends ActiveRecord
 
     public function getJobs()
     {
-        return $this->hasMany(Job::class, ['id_server' => 'id'])->count();
+        return $this->hasMany(Job::class, ['id_server' => 'id'])->where(['status' => Job::STATUS_ACTIVE])->count();
     }
 }
