@@ -24,6 +24,7 @@ YiiAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
+        'template' => '<tr><th style="width: 130px;">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             'description:ntext',
             [

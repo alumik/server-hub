@@ -41,7 +41,7 @@ function formatPercentage($value)
 function gauge($instance, $values, $thresholds)
 {
     if (!key_exists($instance, $values)) {
-        return 'N/A';
+        return '';
     }
     $percent = $values[$instance] * 100;
     $class = getBackgroundColorClass($percent, $thresholds[0], $thresholds[1]);
@@ -105,14 +105,12 @@ $this->registerJs(
                 'value' => function ($model) use ($freeGpuMem) {
                     $instance = $model->gpu_instance;
                     if (!$instance || !key_exists($instance, $freeGpuMem)) {
-                        return 'N/A';
+                        return '';
                     }
                     $gpuDashboard = '';
                     foreach ($freeGpuMem[$instance] as $uuid => $_freeGpuMem) {
                         if ($_freeGpuMem < 2 * 1024 * 1024 * 1024) {
                             $class = 'text-danger';
-                        } elseif ($_freeGpuMem < 4 * 1024 * 1024 * 1024) {
-                            $class = 'text-warning';
                         } elseif ($_freeGpuMem < 24 * 1024 * 1024 * 1024) {
                             $class = 'text-dark';
                         } else {
@@ -123,7 +121,7 @@ $this->registerJs(
                             ['/server/gpu-dashboard', 'instance' => $instance, 'uuid' => $uuid],
                             ['class' => $class]
                         );
-                        $gpuDashboard .= ' / ';
+                        $gpuDashboard .= ' | ';
                     }
                     return substr($gpuDashboard, 0, -3);
                 },
