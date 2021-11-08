@@ -42,6 +42,7 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
         $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
         $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
+        $menuItems[] = ['label' => '公告', 'url' => ['/message/index']];
         if (Yii::$app->user->identity->admin) {
             $menuItems[] = ['label' => '公告管理', 'url' => ['/message-admin/index']];
             $menuItems[] = ['label' => '更新管理', 'url' => ['/change-log-admin/index']];

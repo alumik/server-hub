@@ -40,7 +40,7 @@ YiiAsset::register($this);
             'version',
             [
                 'attribute' => 'text',
-                'value' => Markdown::process($model->text, 'gfm'),
+                'value' => Markdown::process($model->text),
                 'format' => 'html',
             ]
         ],
