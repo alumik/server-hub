@@ -1,7 +1,5 @@
 <?php
 
-use app\models\Dictionary;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Markdown;
 
@@ -32,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card-body">
                 <?= Markdown::process('### 版本 ' . $changeLog->version) ?>
                 <hr/>
-                <p>更新日期 <?= date('Y年m月d日', $changeLog->created_at) ?></p>
+                <p>日期 <?= date('Y年m月d日', $changeLog->created_at) ?></p>
                 <?= Markdown::process($changeLog->text) ?>
             </div>
         </div>

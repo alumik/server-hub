@@ -5,6 +5,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
+use app\models\ChangeLog;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -39,14 +40,19 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '登录', 'url' => ['/site/login']];
         $menuItems[] = ['label' => '注册', 'url' => ['/site/signup']];
     } else {
-        $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
-        $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
-        $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
-        $menuItems[] = ['label' => '公告', 'url' => ['/message/index']];
+        $menuItems[] = ['label' => '服务器状态', 'url' => ['/server']];
+        $menuItems[] = ['label' => '作业记录', 'url' => ['/job']];
+        $menuItems[] = ['label' => '个人中心', 'url' => ['/user']];
+        $menuItems[] = ['label' => '平台公告', 'url' => ['/message']];
         if (Yii::$app->user->identity->admin) {
-            $menuItems[] = ['label' => '公告管理', 'url' => ['/message-admin/index']];
-            $menuItems[] = ['label' => '更新管理', 'url' => ['/change-log-admin/index']];
-            $menuItems[] = ['label' => '用户管理', 'url' => ['/user-admin/index']];
+            $menuItems[] = [
+                'label' => '管理后台',
+                'items' => [
+                    ['label' => '公告管理', 'url' => ['/message-admin']],
+                    ['label' => '更新管理', 'url' => ['/change-log-admin']],
+                    ['label' => '用户管理', 'url' => ['/user-admin']],
+                ],
+            ];
         }
     }
 
@@ -81,7 +87,7 @@ AppAsset::register($this);
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-left">&copy; 南开大学软件学院 <?= date('Y') ?></p>
-        <p class="float-right">平台版本 <?= Yii::$app->params['version'] ?></p>
+        <p class="float-right">平台版本 <?= ChangeLog::find()->orderBy(['created_at' => SORT_DESC])->one()->version ?></p>
     </div>
 </footer>
 
