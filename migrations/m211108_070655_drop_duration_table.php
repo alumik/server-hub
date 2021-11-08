@@ -3,14 +3,24 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%duration}}`.
+ * Handles the dropping of table `{{%duration}}`.
  */
-class m211029_024834_create_duration_table extends Migration
+class m211108_070655_drop_duration_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
+    {
+        $this->dropForeignKey('fk_job_eta', '{{%job}}');
+        $this->dropTable('{{%duration}}');
+        $this->renameColumn('{{%job}}', 'id_duration', 'duration');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function safeDown()
     {
         $this->createTable('{{%duration}}', [
             'id' => $this->primaryKey(),
@@ -24,13 +34,7 @@ class m211029_024834_create_duration_table extends Migration
         $this->insert('{{%duration}}', ['name' => '两周']);
         $this->insert('{{%duration}}', ['name' => '三周']);
         $this->insert('{{%duration}}', ['name' => '长期']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function safeDown()
-    {
-        $this->dropTable('{{%duration}}');
+        $this->renameColumn('{{%job}}', 'duration', 'id_duration');
+        $this->addForeignKey('fk_job_eta', '{{%job}}', 'id_duration', '{{%duration}}', 'id');
     }
 }

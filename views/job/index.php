@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Duration;
+use app\models\Dictionary;
 use app\models\Server;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap4\Html;
@@ -48,9 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['class' => 'truncate'],
             ],
             [
-                'attribute' => 'id_duration',
-                'value' => 'duration.name',
-                'filter' => ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name'),
+                'attribute' => 'duration',
+                'value' => function ($model) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                },
+                'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -60,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a('查看', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                     'update' => function ($url, $model) {
-                        if (Yii::$app->user->id == $model->id_user) {
+                        if (Yii::$app->user->identity->admin || Yii::$app->user->id == $model->id_user) {
                             return Html::a('更新', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                         }
                         return '';

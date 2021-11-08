@@ -47,10 +47,10 @@ $this->registerJs('
         max-width: 720px;
     }
 
-     .server-process tr {
-         height: 20px;
-         line-height: 1rem;
-     }
+    .server-process tr {
+        height: 20px;
+        line-height: 1rem;
+    }
 
     .server-process td {
         padding: 0.5rem;

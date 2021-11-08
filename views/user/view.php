@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Duration;
+use app\models\Dictionary;
 use app\models\Server;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
@@ -72,9 +72,11 @@ YiiAsset::register($this);
                 'contentOptions' => ['class' => 'truncate'],
             ],
             [
-                'attribute' => 'id_duration',
-                'value' => 'duration.name',
-                'filter' => ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name'),
+                'attribute' => 'duration',
+                'value' => function ($model) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                },
+                'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

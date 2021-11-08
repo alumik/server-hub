@@ -4,22 +4,21 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\models\User;
 
 /**
- * JobSearch represents the model behind the search form of `app\models\Job`.
+ * UserSearch represents the model behind the search form of `app\models\User`.
  */
-class JobSearch extends Job
+class UserSearch extends User
 {
-    public $username;
-
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration'], 'integer'],
-            [['description', 'username'], 'safe'],
+            [['id', 'admin'], 'integer'],
+            [['student_id', 'username'], 'safe'],
         ];
     }
 
@@ -41,14 +40,13 @@ class JobSearch extends Job
      */
     public function search($params)
     {
-        $query = Job::find()
-            ->joinWith(User::tableName());
+        $query = User::find();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['updated_at' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
         ]);
 
         $this->load($params);
@@ -62,21 +60,11 @@ class JobSearch extends Job
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'job.status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'id_server' => $this->id_server,
-            'id_user' => $this->id_user,
-            'duration' => $this->duration,
+            'admin' => $this->admin,
+            'student_id' => $this->student_id,
         ]);
 
-        $query->andFilterWhere(['like', 'user.username', $this->username]);
-        $query->andFilterWhere(['like', 'description', $this->description]);
-
-        $dataProvider->sort->attributes['username'] = [
-            'asc' => ['user.username' => SORT_ASC],
-            'desc' => ['user.username' => SORT_DESC],
-        ];
+        $query->andFilterWhere(['like', 'username', $this->username]);
 
         return $dataProvider;
     }

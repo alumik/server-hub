@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Duration;
+use app\models\Dictionary;
 use app\models\Server;
 use yii\bootstrap4\Html;
 use yii\bootstrap4\ActiveForm;
@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = '更新';
         <?= $form->field($model, 'status')->dropdownList(['进行中', '已完成', '已失效']) ?>
 
         <?= $form
-            ->field($model, 'id_duration')
-            ->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
+            ->field($model, 'duration')
+            ->dropdownList(ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value')) ?>
 
         <?= $form
             ->field($model, 'id_server')

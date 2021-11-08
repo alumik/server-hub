@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Dictionary;
 use yii\bootstrap4\Html;
 use yii\web\YiiAsset;
 use yii\widgets\DetailView;
@@ -16,7 +17,7 @@ YiiAsset::register($this);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (Yii::$app->user->id == $model->id_user): ?>
+    <?php if (Yii::$app->user->identity->admin || Yii::$app->user->id == $model->id_user): ?>
         <p>
             <?= Html::a('更新作业记录', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         </p>
@@ -32,8 +33,10 @@ YiiAsset::register($this);
                 'value' => ['进行中', '已完成', '已失效'][$model->status],
             ],
             [
-                'attribute' => 'duration.name',
-                'label' => '预计完成时间',
+                'attribute' => 'duration',
+                'value' => function ($model) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                }
             ],
             [
                 'attribute' => 'server.name',

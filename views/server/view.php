@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Duration;
+use app\models\Dictionary;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -47,9 +47,11 @@ YiiAsset::register($this);
                 'contentOptions' => ['class' => 'truncate'],
             ],
             [
-                'attribute' => 'id_duration',
-                'value' => 'duration.name',
-                'filter' => ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name'),
+                'attribute' => 'duration',
+                'value' => function ($model) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                },
+                'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -59,7 +61,7 @@ YiiAsset::register($this);
                         return Html::a('查看', ['/job/view', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                     'update' => function ($url, $jobModel) {
-                        if (Yii::$app->user->identity->getId() == $jobModel->id_user) {
+                        if (Yii::$app->user->identity->admin || Yii::$app->user->id == $jobModel->id_user) {
                             return Html::a('更新', ['/job/update', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
                         }
                         return '';

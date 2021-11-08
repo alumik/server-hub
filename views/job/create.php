@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Duration;
+use app\models\Dictionary;
 use app\models\Server;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = '新建';
         <?php $form = ActiveForm::begin() ?>
 
         <?= $form
-            ->field($model, 'id_duration')
-            ->dropdownList(ArrayHelper::map(Duration::find()->orderBy('id')->all(), 'id', 'name')) ?>
+            ->field($model, 'duration')
+            ->dropdownList(ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value')) ?>
 
         <?= $form
             ->field($model, 'id_server')

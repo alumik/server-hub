@@ -108,7 +108,7 @@ class JobController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        if (Yii::$app->user->id != $model->id_user) {
+        if (!Yii::$app->user->identity->admin && Yii::$app->user->id != $model->id_user) {
             throw new ForbiddenHttpException('你没有修改该条记录的权限。');
         }
         if ($this->request->isPost && $model->load($this->request->post())) {

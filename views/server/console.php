@@ -1,6 +1,7 @@
 <?php
 
 /* @var $model \app\models\Server */
+
 /* @var $this yii\web\View */
 
 use yii\bootstrap4\Html;

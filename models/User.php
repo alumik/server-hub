@@ -20,6 +20,7 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property bool $admin
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -56,6 +57,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            ['admin', 'boolean'],
         ];
     }
 
@@ -68,6 +70,7 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => '状态',
             'created_at' => '注册时间',
             'updated_at' => '更新时间',
+            'admin' => '管理员',
         ];
     }
 
