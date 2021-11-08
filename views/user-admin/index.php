@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{update}',
                 'buttons' => [
-                    'update' => function ($url, $model) {
+                    'update' => function ($url) {
                         return Html::a('更新', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                 ],
