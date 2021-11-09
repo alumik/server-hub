@@ -23,11 +23,28 @@ YiiAsset::register($this);
         </p>
     <?php endif ?>
 
+    <h2>作业内容</h2>
+
     <?= DetailView::widget([
         'model' => $model,
         'template' => '<tr><th style="width: 130px;">{label}</th><td>{value}</td></tr>',
         'attributes' => [
+            [
+                'attribute' => 'server.name',
+                'label' => '服务器',
+            ],
+            'server_user',
+            'comm',
             'description:ntext',
+        ],
+    ]) ?>
+
+    <h2>作业状态</h2>
+
+    <?= DetailView::widget([
+        'model' => $model,
+        'template' => '<tr><th style="width: 130px;">{label}</th><td>{value}</td></tr>',
+        'attributes' => [
             [
                 'attribute' => 'status',
                 'value' => ['进行中', '已完成', '已失效'][$model->status],
@@ -38,13 +55,10 @@ YiiAsset::register($this);
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
                 }
             ],
-            [
-                'attribute' => 'server.name',
-                'label' => '服务器',
-            ],
+
             [
                 'attribute' => 'user.username',
-                'label' => '所有者',
+                'label' => '创建者',
             ],
             [
                 'attribute' => 'created_at',

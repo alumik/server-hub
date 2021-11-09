@@ -64,9 +64,6 @@ class ProcessSearch extends Model
                 ],
                 'defaultOrder' => ['pcpu' => SORT_DESC],
             ],
-//            'pagination' => [
-//                'pageSize' => 20,
-//            ],
             'pagination' => false,
         ]);
     }

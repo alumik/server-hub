@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
-                'label' => '所有者',
+                'label' => '创建者',
                 'headerOptions' => ['style' => 'width: 120px'],
             ],
             [

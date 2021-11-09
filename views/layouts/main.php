@@ -40,17 +40,17 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '登录', 'url' => ['/site/login']];
         $menuItems[] = ['label' => '注册', 'url' => ['/site/signup']];
     } else {
-        $menuItems[] = ['label' => '服务器状态', 'url' => ['/server']];
-        $menuItems[] = ['label' => '作业记录', 'url' => ['/job']];
-        $menuItems[] = ['label' => '个人中心', 'url' => ['/user']];
-        $menuItems[] = ['label' => '平台公告', 'url' => ['/message']];
+        $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
+        $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
+        $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
+        $menuItems[] = ['label' => '平台公告', 'url' => ['/message/index']];
         if (Yii::$app->user->identity->admin) {
             $menuItems[] = [
                 'label' => '管理后台',
                 'items' => [
-                    ['label' => '公告管理', 'url' => ['/message-admin']],
-                    ['label' => '更新管理', 'url' => ['/change-log-admin']],
-                    ['label' => '用户管理', 'url' => ['/user-admin']],
+                    ['label' => '公告管理', 'url' => ['/message-admin/index']],
+                    ['label' => '更新管理', 'url' => ['/change-log-admin/index']],
+                    ['label' => '用户管理', 'url' => ['/user-admin/index']],
                 ],
             ];
         }

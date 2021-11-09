@@ -39,7 +39,7 @@ YiiAsset::register($this);
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
-                'label' => '所有者',
+                'label' => '创建者',
                 'headerOptions' => ['style' => 'width:110px'],
             ],
             [

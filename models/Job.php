@@ -15,6 +15,8 @@ use yii\db\ActiveQuery;
  * @property int $id_server
  * @property int $id_user
  * @property int $duration
+ * @property int pid
+ * @property string comm
  *
  * @property Server $server
  * @property User $user
@@ -39,9 +41,9 @@ class Job extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration'], 'required'],
-            [['description'], 'string'],
-            [['status', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration'], 'integer'],
+            [['description', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration', 'server_user'], 'required'],
+            [['description', 'comm', 'server_user'], 'string'],
+            [['status', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration', 'pid'], 'integer'],
             [['id_server'], 'exist', 'skipOnError' => true, 'targetClass' => Server::class, 'targetAttribute' => ['id_server' => 'id']],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -59,8 +61,11 @@ class Job extends \yii\db\ActiveRecord
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
             'id_server' => '服务器',
-            'id_user' => '所有者',
+            'id_user' => '创建者',
             'duration' => '预计完成时间',
+            'pid' => 'PID',
+            'server_user' => '服务器用户名',
+            'comm' => '进程名',
         ];
     }
 
