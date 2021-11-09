@@ -134,7 +134,7 @@ $this->registerJs(
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {process} {dashboard} {console}',
+                'template' => '{view} {process} {dashboard}',
                 'buttons' => [
                     'view' => function ($url) {
                         return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary']);
@@ -148,16 +148,6 @@ $this->registerJs(
                             ['/server/dashboard', 'instance' => $model->instance],
                             ['class' => 'btn btn-sm btn-outline-primary']
                         );
-                    },
-                    'console' => function ($url, $model) {
-                        if ($model->console_enabled) {
-                            return Html::a(
-                                '控制台',
-                                ['/server/console', 'id' => $model->id],
-                                ['class' => 'btn btn-sm btn-outline-primary']
-                            );
-                        }
-                        return false;
                     },
                 ],
             ],

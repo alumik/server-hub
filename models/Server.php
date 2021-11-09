@@ -13,7 +13,6 @@ use yii\db\ActiveRecord;
  * @property string $gpu_instance
  * @property string $ip
  * @property string $ssh_user
- * @property boolean $console_enabled
  *
  * @property int $jobs
  */
@@ -33,10 +32,9 @@ class Server extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'instance', 'ip', 'ssh_user', 'console_enabled'], 'required'],
+            [['name', 'instance', 'ip', 'ssh_user'], 'required'],
             [['name', 'instance', 'gpu_instance', 'ip', 'ssh_user'], 'string', 'max' => 255],
             [['name', 'instance', 'gpu_instance', 'ip'], 'unique'],
-            ['console_enabled', 'boolean'],
         ];
     }
 
@@ -52,7 +50,6 @@ class Server extends ActiveRecord
             'gpu_instance' => 'GPU 实例',
             'ip' => 'IP',
             'ssh_user' => 'SSH 用户名',
-            'console_enabled' => '启用控制台',
         ];
     }
 

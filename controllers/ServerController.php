@@ -127,18 +127,6 @@ class ServerController extends Controller
         ]);
     }
 
-    public function actionConsole($id)
-    {
-        $model = $this->findModel($id);
-        if (!$model->console_enabled) {
-            throw new ForbiddenHttpException('该服务器的控制台功能未启用。');
-        }
-
-        return $this->render('console', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Finds the Server model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
