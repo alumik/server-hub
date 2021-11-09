@@ -82,18 +82,27 @@ class ProcessSearch extends Model
             throw new UnauthorizedHttpException('服务器鉴权失败。');
         }
 
-        $output = $ssh->exec('ps --no-headers -eo pid,user:30,pcpu,rss,etimes,comm,cmd --sort -pcpu | tr -s " "');
-        $data = str_getcsv($output, "\n");
-        foreach ($data as &$row) {
-            $exploded = str_getcsv(trim($row), ' ');
+        $output = $ssh->exec('ps -eo pid:10,user:30,pcpu:7,rss:10,etimes:10,comm,cmd --sort -pcpu');
+        $lines = explode("\n", $output);
+
+        $pos_user = strpos($lines[0], 'USER');
+        $pos_pcpu = strpos($lines[0], '%CPU');
+        $pos_rss = strpos($lines[0], 'RSS');
+        $pos_comm = strpos($lines[0], 'COMMAND');
+        $pos_cmd = strpos($lines[0], 'CMD');
+
+        $data = [];
+        for ($i = 1; $i < count($lines) - 1; $i++) {
+            $line = $lines[$i];
             $row = [];
-            $row['pid'] = $exploded[0];
-            $row['user'] = $exploded[1];
-            $row['pcpu'] = $exploded[2];
-            $row['rss'] = $exploded[3];
-            $row['etimes'] = $exploded[4];
-            $row['comm'] = $exploded[5];
-            $row['cmd'] = implode(' ', array_slice($exploded, 6));
+            $row['pid'] = intval(trim(substr($line, 0, 10)));
+            $row['user'] = trim(substr($line, $pos_user, 30));
+            $row['pcpu'] = floatval(trim(substr($line, $pos_user + 31, 7)));
+            $row['rss'] = intval(trim(substr($line, $pos_pcpu + 5, 10)));
+            $row['etimes'] = intval(trim(substr($line, $pos_rss + 4, 10)));
+            $row['comm'] = trim(substr($line, $pos_comm, $pos_cmd - $pos_comm - 1));
+            $row['cmd'] = trim(substr($line, $pos_cmd));
+            $data[] = $row;
         }
 
         if ($this->_filtered) {
