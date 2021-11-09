@@ -30,39 +30,45 @@ YiiAsset::register($this);
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'updated_at',
-                'value' => function ($jobModel) {
-                    return date('Y年m月d日 H:i:s', $jobModel->updated_at);
+                'attribute' => 'created_at',
+                'value' => function ($job) {
+                    return date('Y年m月d日 H:i:s', $job->created_at);
                 },
-                'filter' => '',
             ],
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '创建者',
-                'headerOptions' => ['style' => 'width:110px'],
+                'headerOptions' => ['style' => 'width: 100px'],
+                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'truncate'],
+            ],
+            [
+                'attribute' => 'server_user',
+                'label' => '服务器用户名',
+                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'truncate'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'truncate'],
             ],
             [
                 'attribute' => 'duration',
-                'value' => function ($model) {
-                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                'value' => function ($job) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $job->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
+                'headerOptions' => ['style' => 'width: 1px'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update}',
                 'buttons' => [
-                    'view' => function ($url, $jobModel) {
-                        return Html::a('查看', ['/job/view', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
+                    'view' => function ($url, $job) {
+                        return Html::a('查看', ['/job/view', 'id' => $job->id], ['class' => 'btn btn-sm btn-outline-primary']);
                     },
-                    'update' => function ($url, $jobModel) {
-                        if (Yii::$app->user->identity->admin || Yii::$app->user->id == $jobModel->id_user) {
-                            return Html::a('更新', ['/job/update', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
+                    'update' => function ($url, $job) {
+                        if (Yii::$app->user->identity->admin || Yii::$app->user->id == $job->id_user) {
+                            return Html::a('更新', ['/job/update', 'id' => $job->id], ['class' => 'btn btn-sm btn-outline-primary']);
                         }
                         return '';
                     },

@@ -26,17 +26,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'updated_at',
+                'attribute' => 'created_at',
                 'value' => function ($model) {
-                    return date('Y年m月d日 H:i:s', $model->updated_at);
+                    return date('Y年m月d日 H:i:s', $model->created_at);
                 },
-                'filter' => '',
             ],
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '创建者',
-                'headerOptions' => ['style' => 'width: 120px'],
+                'headerOptions' => ['style' => 'width: 100px'],
+                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'truncate'],
             ],
             [
                 'attribute' => 'id_server',
@@ -44,8 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name'),
             ],
             [
+                'attribute' => 'server_user',
+                'label' => '服务器用户名',
+                'headerOptions' => ['style' => 'width: 140px'],
+                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'truncate'],
+            ],
+            [
                 'attribute' => 'description',
-                'contentOptions' => ['class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'truncate'],
             ],
             [
                 'attribute' => 'duration',
@@ -53,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
+                'headerOptions' => ['style' => 'width: 1px'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

@@ -34,7 +34,11 @@ YiiAsset::register($this);
                 'label' => '服务器',
             ],
             'server_user',
-            'comm',
+            [
+                'attribute' => 'comm',
+                'value' => $model->comm == '' ? Html::tag('span', '(未设置)', ['class' => 'not-set']) : $model->comm,
+                'format' => 'html',
+            ],
             'description:ntext',
         ],
     ]) ?>

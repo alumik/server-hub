@@ -18,8 +18,8 @@ class JobSearch extends Job
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration'], 'integer'],
-            [['description', 'username'], 'safe'],
+            [['id', 'status', 'id_server', 'id_user', 'duration'], 'integer'],
+            [['description', 'username', 'server_user'], 'safe'],
         ];
     }
 
@@ -48,7 +48,7 @@ class JobSearch extends Job
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['updated_at' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -70,8 +70,9 @@ class JobSearch extends Job
             'duration' => $this->duration,
         ]);
 
-        $query->andFilterWhere(['like', 'user.username', $this->username]);
-        $query->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'user.username', $this->username])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'server_user', $this->server_user]);
 
         $dataProvider->sort->attributes['username'] = [
             'asc' => ['user.username' => SORT_ASC],

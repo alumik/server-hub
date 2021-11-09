@@ -16,6 +16,7 @@ use yii\db\ActiveQuery;
  * @property int $id_user
  * @property int $duration
  * @property int pid
+ * @property string server_user
  * @property string comm
  *
  * @property Server $server
@@ -62,7 +63,7 @@ class Job extends \yii\db\ActiveRecord
             'updated_at' => '更新时间',
             'id_server' => '服务器',
             'id_user' => '创建者',
-            'duration' => '预计完成时间',
+            'duration' => '运行时间',
             'pid' => 'PID',
             'server_user' => '服务器用户名',
             'comm' => '进程名',

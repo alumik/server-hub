@@ -49,18 +49,10 @@ YiiAsset::register($this);
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'updated_at',
-                'value' => function ($model) {
-                    return date('Y年m月d日 H:i:s', $model->updated_at);
+                'attribute' => 'created_at',
+                'value' => function ($job) {
+                    return date('Y年m月d日 H:i:s', $job->created_at);
                 },
-                'filter' => '',
-            ],
-            [
-                'attribute' => 'status',
-                'value' => function ($jobModel) {
-                    return ['进行中', '已完成', '已失效'][$jobModel->status];
-                },
-                'filter' => ['进行中', '已完成', '已失效'],
             ],
             [
                 'attribute' => 'id_server',
@@ -68,25 +60,40 @@ YiiAsset::register($this);
                 'filter' => ArrayHelper::map(Server::find()->all(), 'id', 'name'),
             ],
             [
+                'attribute' => 'server_user',
+                'label' => '服务器用户名',
+                'headerOptions' => ['style' => 'width: 140px'],
+                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'truncate'],
+            ],
+            [
                 'attribute' => 'description',
-                'contentOptions' => ['class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'truncate'],
             ],
             [
                 'attribute' => 'duration',
-                'value' => function ($model) {
-                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
+                'value' => function ($job) {
+                    return Dictionary::findOne(['name' => 'job_duration', 'key' => $job->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
+                'headerOptions' => ['style' => 'width: 1px'],
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function ($job) {
+                    return ['进行中', '已完成', '已失效'][$job->status];
+                },
+                'filter' => ['进行中', '已完成', '已失效'],
+                'headerOptions' => ['style' => 'width: 100px'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view} {update}',
                 'buttons' => [
-                    'view' => function ($url, $jobModel) {
-                        return Html::a('查看', ['/job/view', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
+                    'view' => function ($url, $job) {
+                        return Html::a('查看', ['/job/view', 'id' => $job->id], ['class' => 'btn btn-sm btn-outline-primary']);
                     },
-                    'update' => function ($url, $jobModel) {
-                        return Html::a('更新', ['/job/update', 'id' => $jobModel->id], ['class' => 'btn btn-sm btn-outline-primary']);
+                    'update' => function ($url, $job) {
+                        return Html::a('更新', ['/job/update', 'id' => $job->id], ['class' => 'btn btn-sm btn-outline-primary']);
                     },
                 ]
             ],
