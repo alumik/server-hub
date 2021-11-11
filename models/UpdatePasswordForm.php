@@ -49,4 +49,16 @@ class UpdatePasswordForm extends Model
         $user->updated_at = time();
         return $user->save() ? $user : null;
     }
+
+    public function updatePasswordById($id)
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $user = User::findIdentity($id);
+        $user->setPassword($this->password);
+        $user->updated_at = time();
+        return $user->save() ? $user : null;
+    }
 }

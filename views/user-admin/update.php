@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = '更新用户';
+$this->title = '更新用户信息';
 $this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id];
 $this->params['breadcrumbs'][] = '更新';
 ?>
 <div class="user-update">
@@ -18,6 +18,8 @@ $this->params['breadcrumbs'][] = '更新';
     <div class="user-form">
 
         <?php $form = ActiveForm::begin() ?>
+
+        <?= $form->field($model, 'student_id')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 

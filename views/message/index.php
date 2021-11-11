@@ -16,10 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php foreach ($messages as $message): ?>
 
-        <div class="card bg-<?= $message->mode ?> text-white mb-2">
-            <div class="card-body">
-                <?= $message->text ?>
-            </div>
+        <div class="bd-callout bd-callout-<?= $message->mode ?>">
+            <?= $message->text ?>
         </div>
 
     <?php endforeach ?>
@@ -28,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php foreach ($changeLogs as $changeLog): ?>
 
-        <div class="card bg-light mb-2">
+        <div class="card bg-light mb-3">
             <div class="card-header">
                 <h4 class="mb-0"><?= '版本 ' . $changeLog->version ?></h4>
             </div>

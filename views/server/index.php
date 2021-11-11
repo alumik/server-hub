@@ -49,7 +49,7 @@ function gauge($instance, $values, $thresholds)
         'percent' => $percent,
         'barOptions' => ['class' => $class],
         'options' => ['class' => 'bg-secondary'],
-        'label' => formatPercentage($percent),
+        'label' => '&nbsp;' . formatPercentage($percent),
     ]);
 }
 

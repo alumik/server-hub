@@ -40,16 +40,16 @@ YiiAsset::register($this);
                 'value' => 'user.username',
                 'label' => '创建者',
                 'headerOptions' => ['style' => 'width: 100px'],
-                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'server_user',
                 'label' => '服务器用户名',
-                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'duration',

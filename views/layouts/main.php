@@ -6,6 +6,7 @@
 
 use app\assets\AppAsset;
 use app\models\ChangeLog;
+use app\models\Message;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -43,7 +44,12 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
         $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
         $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
-        $menuItems[] = ['label' => '平台公告', 'url' => ['/message/index']];
+        $menuItems[] = [
+            'label' => '平台公告 ' . Html::tag('div',
+                    Message::find()->where(['show' => true])->count(),
+                    ['class' => 'badge badge-pill badge-warning']),
+            'url' => ['/message/index']
+        ];
         if (Yii::$app->user->identity->admin) {
             $menuItems[] = [
                 'label' => '管理后台',
@@ -59,6 +65,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav mr-auto'],
         'items' => $menuItems,
+        'encodeLabels' => false,
     ]);
 
     if (!Yii::$app->user->isGuest) {

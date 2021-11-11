@@ -98,6 +98,7 @@ button.logout:focus {
     height: 30px !important;
     line-height: 30px !important;
     font-size: 0.875rem;
+    overflow: visible !important;
 }
 
 td {
@@ -111,10 +112,4 @@ td {
     position: fixed;
     left: 0;
     top: 56px;
-}
-
-.truncate {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }

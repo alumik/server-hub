@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\UpdatePasswordForm;
 use app\models\User;
 use app\models\UserSearch;
 use Yii;
@@ -71,6 +72,26 @@ class UserAdminController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionPasswd($id)
+    {
+        if (!Yii::$app->user->identity->admin) {
+            throw new ForbiddenHttpException('你没有查看该页面的权限。');
+        }
+        $model = new UpdatePasswordForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->updatePasswordById($id)) {
+                Yii::$app->session->setFlash('success', '密码更新成功。');
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('passwd', [
+            'model' => $model,
+            'id' => $id,
         ]);
     }
 

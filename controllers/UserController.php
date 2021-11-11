@@ -48,23 +48,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionUpdatePassword()
-    {
-        $model = new UpdatePasswordForm();
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->updatePassword()) {
-                Yii::$app->session->setFlash('success', '密码更新成功。');
-                return $this->redirect('/user');
-            }
-        }
-
-        return $this->render('update-password', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionUpdateUsername()
+    public function actionUpdate()
     {
         $model = User::findIdentity(Yii::$app->user->id);
 
@@ -72,11 +56,27 @@ class UserController extends Controller
             $model->updated_at = time();
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', '姓名更新成功。');
-                return $this->redirect('/user');
+                return $this->redirect(['index']);
             }
         }
 
-        return $this->render('update-username', [
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionPasswd()
+    {
+        $model = new UpdatePasswordForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->updatePassword()) {
+                Yii::$app->session->setFlash('success', '密码更新成功。');
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('passwd', [
             'model' => $model,
         ]);
     }

@@ -12,15 +12,6 @@ use yii\grid\GridView;
 $this->title = '公告管理';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<style>
-    .message-truncate {
-        max-width: 520px !important;
-        text-overflow: ellipsis !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-    }
-</style>
-
 <div class="message-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -55,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'text',
-                'contentOptions' => ['class' => 'message-truncate'],
+                'contentOptions' => ['class' => 'text-truncate', 'style' => 'max-width: 520px'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

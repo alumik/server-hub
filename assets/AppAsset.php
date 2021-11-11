@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/nankai-bootstrap4.css',
+        'css/nankai-bootstrap4-addon.css',
         'css/site.css',
     ];
     public $js = [

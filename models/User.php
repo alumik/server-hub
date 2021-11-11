@@ -56,7 +56,8 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             ['username', 'trim'],
             ['username', 'required'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            [['username', 'student_id'], 'string', 'min' => 2, 'max' => 255],
+            ['student_id', 'unique', 'targetClass' => '\app\models\User', 'message' => '账号已被使用。'],
             ['admin', 'boolean'],
         ];
     }

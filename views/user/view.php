@@ -22,8 +22,8 @@ YiiAsset::register($this);
     <h1><?= Html::encode($model->username) ?></h1>
 
     <p>
-        <?= Html::a('修改密码', ['update-password'], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('修改姓名', ['update-username'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('修改姓名', ['update'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('修改密码', ['passwd'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -63,11 +63,11 @@ YiiAsset::register($this);
                 'attribute' => 'server_user',
                 'label' => '服务器用户名',
                 'headerOptions' => ['style' => 'width: 140px'],
-                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'truncate'],
+                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'duration',
