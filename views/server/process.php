@@ -106,7 +106,13 @@ $this->registerJs('
             ],
             [
                 'attribute' => 'comm',
-                'label' => '命令',
+                'label' => '命令名',
+                'headerOptions' => [
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                    'data-container' => 'body',
+                    'title' => '由于系统限制，仅显示前 15 个字符。',
+                ],
                 'contentOptions' => function ($model) {
                     return [
                         'data-toggle' => 'tooltip',

@@ -35,6 +35,11 @@ YiiAsset::register($this);
             ],
             'server_user',
             [
+                'attribute' => 'pid',
+                'value' => $model->pid == '' ? Html::tag('span', '(未设置)', ['class' => 'not-set']) : $model->pid,
+                'format' => 'html',
+            ],
+            [
                 'attribute' => 'comm',
                 'value' => $model->comm == '' ? Html::tag('span', '(未设置)', ['class' => 'not-set']) : $model->comm,
                 'format' => 'html',

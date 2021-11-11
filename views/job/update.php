@@ -32,9 +32,11 @@ $this->params['breadcrumbs'][] = '更新';
             ->field($model, 'id_server')
             ->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
 
-        <?= $form->field($model, 'server_user')->textInput() ?>
+        <?= $form->field($model, 'server_user')->textInput(['placeholder' => '执行该作业所用的服务器用户名']) ?>
 
-        <?= $form->field($model, 'comm')->textInput(['placeholder' => 'Top 等工具可以看到的 Command 字段（可选）']) ?>
+        <?= $form->field($model, 'pid')->textInput(['placeholder' => '进程 PID (可选)']) ?>
+
+        <?= $form->field($model, 'comm')->textInput(['placeholder' => 'Top 等工具可以看到的 Command 字段 (可选)']) ?>
 
         <?= $form->field($model, 'description')->textarea(['rows' => 8]) ?>
 

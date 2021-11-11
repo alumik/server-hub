@@ -45,7 +45,7 @@ class Message extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'mode' => '模式',
+            'mode' => '等级',
             'text' => '内容',
             'created_at' => '创建时间',
             'updated_at' => '更新时间',
