@@ -19,7 +19,7 @@ YiiAsset::register($this);
 
     <?php if (Yii::$app->user->identity->admin || Yii::$app->user->id == $model->id_user): ?>
         <p>
-            <?= Html::a('更新作业记录', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('<i class="fa fa-edit"></i> 更新作业记录', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         </p>
     <?php endif ?>
 
@@ -27,22 +27,24 @@ YiiAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
-        'template' => '<tr><th style="width: 130px;">{label}</th><td>{value}</td></tr>',
+        'template' => '<tr><th class="w-2">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             [
                 'attribute' => 'server.name',
                 'label' => '服务器',
             ],
             'server_user',
+            'pid',
             [
-                'attribute' => 'pid',
-                'value' => $model->pid == '' ? Html::tag('span', '(未设置)', ['class' => 'not-set']) : $model->pid,
+                'attribute' => 'comm',
+                'value' => $model->comm ?: Html::tag('span', '(未设置)', ['class' => 'not-set']),
                 'format' => 'html',
             ],
             [
-                'attribute' => 'comm',
-                'value' => $model->comm == '' ? Html::tag('span', '(未设置)', ['class' => 'not-set']) : $model->comm,
-                'format' => 'html',
+                'attribute' => 'use_gpu',
+                'value' => function ($model) {
+                    return ['否', '是'][$model->use_gpu];
+                }
             ],
             'description:ntext',
         ],
@@ -52,7 +54,7 @@ YiiAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
-        'template' => '<tr><th style="width: 130px;">{label}</th><td>{value}</td></tr>',
+        'template' => '<tr><th class="w-2">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             [
                 'attribute' => 'status',
@@ -64,7 +66,6 @@ YiiAsset::register($this);
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
                 }
             ],
-
             [
                 'attribute' => 'user.username',
                 'label' => '创建者',

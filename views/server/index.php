@@ -53,19 +53,14 @@ function gauge($instance, $values, $thresholds)
     ]);
 }
 
-$this->registerJs(
-    'setInterval(function(){  
-         $.pjax.reload({container:"#server"})
-    }, 10000)',
-    $this::POS_HEAD
-);
+$this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},10000)');
 ?>
 <div class="server-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        数据每隔十秒自动刷新
+        每隔十秒自动刷新
     </p>
 
     <?php Pjax::begin(['id' => 'server']) ?>
@@ -74,7 +69,7 @@ $this->registerJs(
         'columns' => [
             [
                 'attribute' => 'name',
-                'headerOptions' => ['style' => 'width:140px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'label' => 'CPU 使用',
@@ -82,15 +77,15 @@ $this->registerJs(
                     return gauge($model->instance, $cpuUsage, [70, 90]);
                 },
                 'format' => 'html',
-                'headerOptions' => ['style' => 'width:110px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'label' => '平均负载',
                 'value' => function ($model) use ($nodeLoad5) {
                     return gauge($model->instance, $nodeLoad5, [100, 500]);
                 },
-                'headerOptions' => ['style' => 'width:110px'],
                 'format' => 'html',
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'label' => '内存使用',
@@ -98,10 +93,10 @@ $this->registerJs(
                     return gauge($model->instance, $memUsage, [70, 90]);
                 },
                 'format' => 'html',
-                'headerOptions' => ['style' => 'width:110px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
-                'label' => '可用显存（点击查看详情）',
+                'label' => '可用显存',
                 'value' => function ($model) use ($freeGpuMem) {
                     $instance = $model->gpu_instance;
                     if (!$instance || !key_exists($instance, $freeGpuMem)) {
@@ -130,7 +125,7 @@ $this->registerJs(
             [
                 'label' => '作业数',
                 'value' => 'jobs',
-                'headerOptions' => ['style' => 'width:100px'],
+                'headerOptions' => ['class' => 'w-0'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
@@ -139,8 +134,16 @@ $this->registerJs(
                     'view' => function ($url) {
                         return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary']);
                     },
-                    'process' => function ($url) {
-                        return Html::a('当前进程', $url, ['class' => 'btn btn-sm btn-outline-primary']);
+                    'process' => function ($url, $model) use ($freeGpuMem) {
+                        $gpuProcess = '';
+                        $instance = $model->gpu_instance;
+                        if ($instance && key_exists($instance, $freeGpuMem)) {
+                            $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary']);
+                        }
+                        return Html::beginTag('div', ['class' => 'btn-group', 'role' => 'group']) .
+                            Html::a('CPU 进程', $url, ['class' => 'btn btn-sm btn-outline-primary']) .
+                            $gpuProcess .
+                            Html::endTag('div');
                     },
                     'dashboard' => function ($url, $model) {
                         return Html::a(

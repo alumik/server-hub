@@ -3,10 +3,9 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
- * This is the model class for table "server".
- *
  * @property int $id
  * @property string $name
  * @property string $instance
@@ -18,17 +17,11 @@ use yii\db\ActiveRecord;
  */
 class Server extends ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'server';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -38,14 +31,11 @@ class Server extends ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
             'id' => 'ID',
-            'name' => '名称',
+            'name' => '服务器',
             'instance' => '实例',
             'gpu_instance' => 'GPU 实例',
             'ip' => 'IP',
@@ -55,6 +45,19 @@ class Server extends ActiveRecord
 
     public function getJobs()
     {
-        return $this->hasMany(Job::class, ['id_server' => 'id'])->where(['status' => Job::STATUS_ACTIVE])->count();
+        $durationSec = Dictionary::find()
+            ->select(['key', 'value'])
+            ->where(['name' => 'job_duration_sec']);
+        $now = time();
+        return Job::find()
+            ->joinWith(User::tableName())
+            ->leftJoin(['duration_sec' => $durationSec], 'job.duration = duration_sec.key')
+            ->where(['id_server' => $this->id, 'job.status' => Job::STATUS_ACTIVE])
+            ->andWhere([
+                '<',
+                new Expression("$now - job.created_at"),
+                new Expression('value')
+            ])
+            ->count();
     }
 }

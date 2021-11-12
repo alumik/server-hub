@@ -4,9 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 
-/**
- * Signup form
- */
 class SignupForm extends Model
 {
     public $username;
@@ -14,20 +11,16 @@ class SignupForm extends Model
     public $password;
     public $password_repeat;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['username', 'student_id'], 'trim'],
-            [['username', 'student_id'], 'required'],
+            [['student_id'], 'number'],
+            [['username', 'student_id', 'password', 'password_repeat'], 'required'],
             [['username', 'student_id'], 'string', 'min' => 2, 'max' => 255],
-            ['student_id', 'unique', 'targetClass' => '\app\models\User', 'message' => '账号已被使用。'],
-            ['student_id', 'number'],
-            [['password', 'password_repeat'], 'required'],
             [['password', 'password_repeat'], 'string', 'min' => 6],
-            ['password', 'compare'],
+            ['student_id', 'unique', 'targetClass' => '\app\models\User', 'message' => '账号已被使用。'],
+            [['password'], 'compare'],
         ];
     }
 

@@ -3,20 +3,15 @@
 namespace app\controllers;
 
 use app\models\JobSearch;
+use app\models\SiteTraffic;
 use app\models\UpdatePasswordForm;
 use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 
-/**
- * UserController implements the CRUD actions for User model.
- */
 class UserController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
         return [
@@ -34,11 +29,16 @@ class UserController extends Controller
 
     public function actionIndex()
     {
+        SiteTraffic::register();
+
         $user = Yii::$app->user->identity;
         $searchModel = new JobSearch();
+
         $params = $this->request->queryParams;
         $params['JobSearch']['id_user'] = $user->id;
+        $params['JobSearch']['show_outdated'] = true;
         $dataProvider = $searchModel->search($params);
+
         Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
 
         return $this->render('view', [

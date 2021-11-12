@@ -2,11 +2,14 @@
 
 namespace app\models;
 
-use yii\db\ActiveQuery;
+use Yii;
+use yii\behaviors\AttributeBehavior;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "job".
- *
  * @property int $id
  * @property string $description
  * @property int $status
@@ -18,41 +21,50 @@ use yii\db\ActiveQuery;
  * @property int pid
  * @property string server_user
  * @property string comm
+ * @property boolean $use_gpu
  *
  * @property Server $server
  * @property User $user
  */
-class Job extends \yii\db\ActiveRecord
+class Job extends ActiveRecord
 {
     const STATUS_ACTIVE = 0;
     const STATUS_FINISHED = 1;
     const STATUS_INVALID = 2;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'job';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function behaviors()
     {
         return [
-            [['description', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration', 'server_user'], 'required'],
-            [['description', 'comm', 'server_user'], 'string'],
-            [['status', 'created_at', 'updated_at', 'id_server', 'id_user', 'duration', 'pid'], 'integer'],
-            [['id_server'], 'exist', 'skipOnError' => true, 'targetClass' => Server::class, 'targetAttribute' => ['id_server' => 'id']],
-            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['id_user' => 'id']],
+            TimestampBehavior::class,
+            [
+                'class' => AttributeBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'id_user',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => false,
+                ],
+                'value' => function () {
+                    return Yii::$app->user->id;
+                },
+            ]
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function rules()
+    {
+        return [
+            [['description', 'id_server', 'duration', 'pid', 'server_user', 'use_gpu'], 'required'],
+            [['description', 'comm', 'server_user'], 'string', 'max' => 255],
+            [['status', 'id_server', 'duration', 'pid'], 'integer'],
+            [['use_gpu'], 'boolean'],
+            [['id_server'], 'exist', 'skipOnError' => true, 'targetClass' => Server::class, 'targetAttribute' => ['id_server' => 'id']],
+        ];
+    }
+
     public function attributeLabels()
     {
         return [
@@ -64,29 +76,41 @@ class Job extends \yii\db\ActiveRecord
             'id_server' => '服务器',
             'id_user' => '创建者',
             'duration' => '运行时间',
-            'pid' => 'PID',
+            'pid' => '主进程 PID',
             'server_user' => '服务器用户名',
             'comm' => '进程名',
+            'use_gpu' => '需要使用 GPU',
         ];
     }
 
-    /**
-     * Gets query for [[Server]].
-     *
-     * @return ActiveQuery
-     */
     public function getServer()
     {
         return $this->hasOne(Server::class, ['id' => 'id_server']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'id_user']);
+    }
+
+    public static function getGpuJobPid($server)
+    {
+        $durationSec = Dictionary::find()
+            ->select(['key', 'value'])
+            ->where(['name' => 'job_duration_sec']);
+        $now = time();
+
+        return ArrayHelper::getColumn(Job::find()
+            ->select('pid')
+            ->leftJoin(Server::tableName(), 'id_server = server.id')
+            ->leftJoin(['duration_sec' => $durationSec], 'duration = duration_sec.key')
+            ->where(['status' => 0, 'use_gpu' => true, 'name' => "$server 服务器"])
+            ->andWhere(['not', ['pid' => null]])
+            ->andWhere([
+                '<',
+                new Expression("$now - job.created_at"),
+                new Expression('value')
+            ])
+            ->all(), 'pid');
     }
 }

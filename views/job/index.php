@@ -18,7 +18,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('新建作业记录', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-plus-square"></i> 新建作业记录', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-history"></i> 进程清理历史', ['/server/killed'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="fa fa-comment-alt"></i>', ['/site/feedback'], ['class' => 'btn btn-primary', 'title' => '反馈']) ?>
     </p>
 
     <?= GridView::widget([
@@ -28,30 +30,44 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_at',
                 'value' => function ($model) {
-                    return date('Y年m月d日 H:i:s', $model->created_at);
+                    return date('Y/m/d', $model->created_at);
                 },
             ],
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '创建者',
-                'headerOptions' => ['style' => 'width: 100px'],
-                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'text-truncate'],
+                'headerOptions' => ['class' => 'w-1'],
+                'contentOptions' => ['style' => 'max-width: 120px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'id_server',
                 'value' => 'server.name',
                 'filter' => ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name'),
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'attribute' => 'server_user',
                 'label' => '服务器用户名',
-                'headerOptions' => ['style' => 'width: 140px'],
-                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'text-truncate'],
+                'headerOptions' => ['class' => 'w-1'],
+                'contentOptions' => ['style' => 'max-width: 120px', 'class' => 'text-truncate'],
+            ],
+            [
+                'attribute' => 'pid',
+                'label' => 'PID',
+                'headerOptions' => ['class' => 'w-0'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'text-truncate'],
+                'value' => function ($model) {
+                    if ($model->use_gpu) {
+                        return Html::img('@web/img/nvidia.svg', ['alt' => 'USE GPU', 'class' => 'inline-logo mr-1']) . $model->description;
+                    } else {
+                        return $model->description;
+                    }
+                },
+                'format' => 'html',
+                'contentOptions' => ['style' => 'max-width: 240px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'duration',
@@ -59,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $model->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
-                'headerOptions' => ['style' => 'width: 1px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

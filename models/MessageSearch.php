@@ -4,41 +4,23 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Message;
 
-/**
- * MessageSearch represents the model behind the search form of `app\models\Message`.
- */
 class MessageSearch extends Message
 {
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['mode', 'text'], 'safe'],
-            ['show', 'boolean'],
+            [['mode', 'content'], 'safe'],
+            [['show'], 'boolean'],
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
-    /**
-     * Creates data provider instance with search query applied
-     *
-     * @param array $params
-     *
-     * @return ActiveDataProvider
-     */
     public function search($params)
     {
         $query = Message::find();
@@ -47,7 +29,7 @@ class MessageSearch extends Message
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['updated_at' => SORT_DESC]],
+            'sort' => ['defaultOrder' => ['created_at' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -60,12 +42,11 @@ class MessageSearch extends Message
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
             'show' => $this->show,
+            'mode' => $this->mode,
         ]);
 
-        $query->andFilterWhere(['like', 'mode', $this->mode])
-            ->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', 'content', $this->content]);
 
         return $dataProvider;
     }

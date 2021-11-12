@@ -5,8 +5,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
-use app\models\ChangeLog;
-use app\models\Message;
+use app\models\Changelog;
 use app\widgets\Alert;
 use yii\bootstrap4\Breadcrumbs;
 use yii\bootstrap4\Html;
@@ -44,19 +43,16 @@ AppAsset::register($this);
         $menuItems[] = ['label' => '服务器状态', 'url' => ['/server/index']];
         $menuItems[] = ['label' => '作业记录', 'url' => ['/job/index']];
         $menuItems[] = ['label' => '个人中心', 'url' => ['/user/index']];
-        $menuItems[] = [
-            'label' => '平台公告 ' . Html::tag('div',
-                    Message::find()->where(['show' => true])->count(),
-                    ['class' => 'badge badge-pill badge-warning']),
-            'url' => ['/message/index']
-        ];
+
         if (Yii::$app->user->identity->admin) {
             $menuItems[] = [
                 'label' => '管理后台',
                 'items' => [
-                    ['label' => '公告管理', 'url' => ['/message-admin/index']],
-                    ['label' => '更新管理', 'url' => ['/change-log-admin/index']],
-                    ['label' => '用户管理', 'url' => ['/user-admin/index']],
+                    ['label' => '公告管理', 'url' => ['/admin/message/index']],
+                    ['label' => '更新管理', 'url' => ['/admin/changelog/index']],
+                    ['label' => '用户管理', 'url' => ['/admin/user/index']],
+                    ['label' => '反馈管理', 'url' => ['/admin/feedback/index']],
+                    ['label' => '访问记录', 'url' => ['/admin/site-traffic/index']],
                 ],
             ];
         }
@@ -94,7 +90,10 @@ AppAsset::register($this);
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-left">&copy; 南开大学软件学院 <?= date('Y') ?></p>
-        <p class="float-right">平台版本 <?= ChangeLog::find()->orderBy(['created_at' => SORT_DESC])->one()->version ?></p>
+        <p class="float-right">
+            <?= Html::a('反馈', '/site/feedback', ['class' => 'text-muted mr-3']) ?>
+            <?= Html::a('平台版本 ' . Changelog::find()->orderBy(['created_at' => SORT_DESC])->one()->version, '/site/changelog', ['class' => 'text-muted']) ?>
+        </p>
     </div>
 </footer>
 

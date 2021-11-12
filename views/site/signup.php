@@ -1,12 +1,11 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
-
-/* @var $model app\models\SignupForm */
-
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model app\models\SignupForm */
 
 $this->title = '注册';
 $this->params['breadcrumbs'][] = $this->title;
@@ -25,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= $form->field($model, 'student_id')->textInput(['autofocus' => true, 'placeholder' => '学号/工号']) ?>
+    <?= $form->field($model, 'student_id')->textInput(['autofocus' => true, 'placeholder' => '学号/工号', 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'username') ?>
 

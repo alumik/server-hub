@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\GpuProcessSearch;
 use app\models\Job;
 use app\models\JobSearch;
+use app\models\KillHistorySearch;
 use app\models\ProcessSearch;
 use app\models\Server;
 use app\models\ServerSearch;
@@ -12,17 +14,10 @@ use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
 use yii\web\Controller;
-use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-/**
- * ServerController implements the CRUD actions for Server model.
- */
 class ServerController extends Controller
 {
-    /**
-     * @inheritDoc
-     */
     public function behaviors()
     {
         return [
@@ -44,10 +39,6 @@ class ServerController extends Controller
         return ArrayHelper::map($response->data['data']['result'], $from, 'value.1', $group);
     }
 
-    /**
-     * Lists all Server models.
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new ServerSearch();
@@ -76,20 +67,16 @@ class ServerController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single Server model.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionView($id)
     {
-        $searchModel = new JobSearch();
+        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
+
         $params = $this->request->queryParams;
         $params['JobSearch']['status'] = Job::STATUS_ACTIVE;
         $params['JobSearch']['id_server'] = $id;
+
+        $searchModel = new JobSearch();
         $dataProvider = $searchModel->search($params);
-        Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -115,9 +102,10 @@ class ServerController extends Controller
 
     public function actionProcess($id)
     {
-        $model = $this->findModel($id);
         $params = $this->request->queryParams;
         $searchModel = new ProcessSearch();
+
+        $model = $this->findModel($id);
         $dataProvider = $searchModel->search($params, $model);
 
         return $this->render('process', [
@@ -127,13 +115,29 @@ class ServerController extends Controller
         ]);
     }
 
-    /**
-     * Finds the Server model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Server the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+    public function actionGpuProcess($id)
+    {
+        $searchModel = new GpuProcessSearch();
+        $model = $this->findModel($id);
+        $nvidiaOutput = $searchModel->search($model);
+
+        return $this->render('gpu-process', [
+            'model' => $model,
+            'nvidiaOutput' => $nvidiaOutput,
+        ]);
+    }
+
+    public function actionKilled()
+    {
+        $searchModel = new KillHistorySearch();
+        $dataProvider = $searchModel->search($this->request->queryParams);
+
+        return $this->render('killed', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     protected function findModel($id)
     {
         if (($model = Server::findOne($id)) !== null) {

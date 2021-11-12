@@ -1,18 +1,17 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
-
-/* @var $model app\models\UpdatePasswordForm */
-
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model app\models\UpdatePasswordForm */
 
 $this->title = '修改密码';
 $this->params['breadcrumbs'][] = ['label' => '个人中心', 'url' => '/user'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user">
+<div class="user-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

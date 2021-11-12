@@ -1,12 +1,11 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
-
-/* @var $model app\models\LoginForm */
-
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model app\models\LoginForm */
 
 $this->title = '登录';
 $this->params['breadcrumbs'][] = $this->title;
@@ -27,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= $form->field($model, 'student_id')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'student_id')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 

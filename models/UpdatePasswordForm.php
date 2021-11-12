@@ -5,23 +5,17 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 
-/**
- * UpdatePassword form
- */
 class UpdatePasswordForm extends Model
 {
     public $password;
     public $password_repeat;
 
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
             [['password', 'password_repeat'], 'required'],
             [['password', 'password_repeat'], 'string', 'min' => 6],
-            ['password', 'compare'],
+            [['password'], 'compare'],
         ];
     }
 
@@ -33,11 +27,6 @@ class UpdatePasswordForm extends Model
         ];
     }
 
-    /**
-     * Update user's password.
-     *
-     * @return User|null the saved model or null if saving fails
-     */
     public function updatePassword()
     {
         if (!$this->validate()) {

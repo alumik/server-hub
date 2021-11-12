@@ -10,20 +10,15 @@ use yii\web\UnauthorizedHttpException;
 
 class ProcessSearch extends Model
 {
-    /**
-     * We plan to get two columns in our grid that can be filtered.
-     * Add more if required. You don't have to add all of them.
-     */
     public $pid;
     public $user;
     public $comm;
-    public $cmd;
 
 
     public function rules()
     {
         return [
-            [['user', 'comm', 'cmd'], 'string'],
+            [['user', 'comm'], 'string'],
             ['pid', 'integer'],
         ];
     }
@@ -60,7 +55,6 @@ class ProcessSearch extends Model
                     'rss' => ['default' => SORT_DESC],
                     'etimes' => ['default' => SORT_DESC],
                     'comm',
-                    'cmd',
                 ],
                 'defaultOrder' => ['pcpu' => SORT_DESC],
             ],

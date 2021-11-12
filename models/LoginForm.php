@@ -6,10 +6,7 @@ use Yii;
 use yii\base\Model;
 
 /**
- * LoginForm is the model behind the login form.
- *
  * @property-read User|null $user This property is read-only.
- *
  */
 class LoginForm extends Model
 {
@@ -18,17 +15,13 @@ class LoginForm extends Model
 
     private $_user = false;
 
-
-    /**
-     * @return array the validation rules.
-     */
     public function rules()
     {
         return [
             // student_id and password are both required
             [['student_id', 'password'], 'required'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            [['password'], 'validatePassword'],
         ];
     }
 
@@ -40,13 +33,6 @@ class LoginForm extends Model
         ];
     }
 
-    /**
-     * Validates the password.
-     * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
-     */
     public function validatePassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
@@ -58,10 +44,6 @@ class LoginForm extends Model
         }
     }
 
-    /**
-     * Logs in a user using the provided student_id and password.
-     * @return bool whether the user is logged in successfully
-     */
     public function login()
     {
         if ($this->validate()) {
@@ -70,11 +52,6 @@ class LoginForm extends Model
         return false;
     }
 
-    /**
-     * Finds user by [[student_id]]
-     *
-     * @return User|null
-     */
     public function getUser()
     {
         if ($this->_user === false) {

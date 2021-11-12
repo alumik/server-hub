@@ -22,8 +22,8 @@ YiiAsset::register($this);
     <h1><?= Html::encode($model->username) ?></h1>
 
     <p>
-        <?= Html::a('修改姓名', ['update'], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('修改密码', ['passwd'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="fa fa-user-edit"></i> 修改姓名', ['update'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="fa fa-key"></i> 修改密码', ['passwd'], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -51,23 +51,37 @@ YiiAsset::register($this);
             [
                 'attribute' => 'created_at',
                 'value' => function ($job) {
-                    return date('Y年m月d日 H:i:s', $job->created_at);
+                    return date('Y/m/d', $job->created_at);
                 },
             ],
             [
                 'attribute' => 'id_server',
                 'value' => 'server.name',
                 'filter' => ArrayHelper::map(Server::find()->all(), 'id', 'name'),
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'attribute' => 'server_user',
                 'label' => '服务器用户名',
-                'headerOptions' => ['style' => 'width: 140px'],
-                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'text-truncate'],
+                'headerOptions' => ['class' => 'w-1'],
+                'contentOptions' => ['style' => 'max-width: 120px', 'class' => 'text-truncate'],
+            ],
+            [
+                'attribute' => 'pid',
+                'label' => 'PID',
+                'headerOptions' => ['class' => 'w-0'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'text-truncate'],
+                'value' => function ($job) {
+                    if ($job->use_gpu) {
+                        return Html::img('@web/img/nvidia.svg', ['alt' => 'USE GPU', 'class' => 'inline-logo mr-1']) . $job->description;
+                    } else {
+                        return $job->description;
+                    }
+                },
+                'format' => 'html',
+                'contentOptions' => ['style' => 'max-width: 240px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'duration',
@@ -75,15 +89,20 @@ YiiAsset::register($this);
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $job->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
-                'headerOptions' => ['style' => 'width: 1px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'attribute' => 'status',
                 'value' => function ($job) {
+                    $limit = intval(Dictionary::findOne(['name' => 'job_duration_sec', 'key' => $job->duration])->value);
+                    if (time() - $job->created_at > $limit && $job->status == 0) {
+                        return '<span class="not-set">已过期</span>';
+                    }
                     return ['进行中', '已完成', '已失效'][$job->status];
                 },
                 'filter' => ['进行中', '已完成', '已失效'],
-                'headerOptions' => ['style' => 'width: 100px'],
+                'headerOptions' => ['class' => 'w-1'],
+                'format' => 'html',
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

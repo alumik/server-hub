@@ -2,14 +2,11 @@
 
 use yii\bootstrap4\Html;
 
-/**
- * @var string $name
- * @var string $message
- */
+/* @var $name string */
+/* @var  $message string */
 
 $this->title = $name;
 ?>
-
 <div class="site-error">
 
     <h1><?= Html::encode($this->title) ?></h1>

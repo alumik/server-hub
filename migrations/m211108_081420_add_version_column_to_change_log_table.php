@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles adding columns to table `{{%change_log}}`.
+ * Handles adding columns to table `{{%changelog}}`.
  */
 class m211108_081420_add_version_column_to_change_log_table extends Migration
 {
@@ -12,8 +12,8 @@ class m211108_081420_add_version_column_to_change_log_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('{{%change_log}}', 'version', $this->string()->notNull());
-        $this->dropColumn('{{%change_log}}', 'updated_at');
+        $this->addColumn('{{%changelog}}', 'version', $this->string()->notNull());
+        $this->dropColumn('{{%changelog}}', 'updated_at');
     }
 
     /**
@@ -21,7 +21,7 @@ class m211108_081420_add_version_column_to_change_log_table extends Migration
      */
     public function safeDown()
     {
-        $this->addColumn('{{%change_log}}', 'updated_at', $this->integer()->notNull());
-        $this->dropColumn('{{%change_log}}', 'version');
+        $this->addColumn('{{%changelog}}', 'updated_at', $this->integer()->notNull());
+        $this->dropColumn('{{%changelog}}', 'version');
     }
 }

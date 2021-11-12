@@ -10,41 +10,72 @@
 
 .bd-callout h4 {
     margin-top: 0;
-    margin-bottom: .25rem
+    margin-bottom: .25rem;
 }
 
 .bd-callout p:last-child {
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 .bd-callout code {
-    border-radius: .25rem
+    border-radius: .25rem;
 }
 
 .bd-callout + .bd-callout {
-    margin-top: -.25rem
+    margin-top: -.25rem;
 }
 
 .bd-callout-info {
-    border-left-color: #5bc0de
+    border-left-color: #5bc0de;
 }
 
 .bd-callout-info h4 {
-    color: #5bc0de
+    color: #5bc0de;
 }
 
 .bd-callout-warning {
-    border-left-color: #f0ad4e
+    border-left-color: #f0ad4e;
 }
 
 .bd-callout-warning h4 {
-    color: #f0ad4e
+    color: #f0ad4e;
 }
 
 .bd-callout-danger {
-    border-left-color: #d9534f
+    border-left-color: #d9534f;
 }
 
 .bd-callout-danger h4 {
-    color: #d9534f
+    color: #d9534f;
+}
+
+.bd-callout-primary {
+    border-left-color: #830257;
+}
+
+.bd-callout-primary h4 {
+    color: #830257;
+}
+
+.progress {
+    height: 30px;
+}
+
+.progress-bar {
+    height: 30px !important;
+    line-height: 30px !important;
+    font-size: 0.875rem;
+    overflow: visible !important;
+}
+
+.card-header .fa {
+    transition: .3s transform ease-in-out;
+}
+
+.card-header .collapsed .fa {
+    transform: rotate(90deg);
+}
+
+.card-header a:hover {
+    text-decoration: none;
 }

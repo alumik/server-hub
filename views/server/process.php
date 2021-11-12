@@ -8,10 +8,10 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ProcessSearch */
 /* @var $dataProvider yii\data\ArrayDataProvider */
 
-$this->title = $model->name . '当前进程';
+$this->title = $model->name . '当前 CPU 进程';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->id;
-$this->params['breadcrumbs'][] = '进程';
+$this->params['breadcrumbs'][] = 'CPU 进程';
 
 function formatBytes($bytes)
 {
@@ -37,26 +37,9 @@ function formatTime($value)
     return "${d}天 $h:$m:$s";
 }
 
-$this->registerJs('
-    $(function () {
-        $("[data-toggle=\"tooltip\"]").tooltip()
-    })', $this::POS_END, 'tooltips');
+$this->registerJs('$("[data-toggle=\"tooltip\"]").tooltip()');
+$this->registerCss('.tooltip-inner{max-width:720px;}')
 ?>
-<style>
-    .tooltip-inner {
-        max-width: 720px;
-    }
-
-    .server-process tr {
-        height: 20px;
-        line-height: 1rem;
-    }
-
-    .server-process td {
-        padding: 0.5rem;
-    }
-</style>
-
 <div class="server-process">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -64,10 +47,6 @@ $this->registerJs('
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'pager' => [
-            'firstPageLabel' => '首页',
-            'lastPageLabel' => '末页',
-        ],
         'columns' => [
             [
                 'attribute' => 'pid',
@@ -106,7 +85,7 @@ $this->registerJs('
             ],
             [
                 'attribute' => 'comm',
-                'label' => '命令名',
+                'label' => '进程名',
                 'headerOptions' => [
                     'data-toggle' => 'tooltip',
                     'data-placement' => 'top',

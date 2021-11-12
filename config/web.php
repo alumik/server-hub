@@ -25,6 +25,9 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'VaSdRRXy-XuEpsyW8PD7569TYAwEy-KU',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -59,7 +62,7 @@ $config = [
             'rules' => [
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>' => '<controller>/index',
-                '<controller:\w+>/<id:\d+>/<action:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<id:\d+>/<action:[\w-]+>' => '<controller>/<action>',
             ],
         ],
         'assetManager' => [

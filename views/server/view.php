@@ -3,7 +3,7 @@
 use app\models\Dictionary;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use yii\bootstrap4\Html;
 use yii\web\YiiAsset;
 
 /* @var $this yii\web\View */
@@ -21,10 +21,6 @@ YiiAsset::register($this);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('新建作业记录', ['/job/create', 'idServer' => $model->id], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -32,24 +28,38 @@ YiiAsset::register($this);
             [
                 'attribute' => 'created_at',
                 'value' => function ($job) {
-                    return date('Y年m月d日 H:i:s', $job->created_at);
+                    return date('Y/m/d', $job->created_at);
                 },
             ],
             [
                 'attribute' => 'username',
                 'value' => 'user.username',
                 'label' => '创建者',
-                'headerOptions' => ['style' => 'width: 100px'],
-                'contentOptions' => ['style' => 'max-width: 100px', 'class' => 'text-truncate'],
+                'headerOptions' => ['class' => 'w-1'],
+                'contentOptions' => ['style' => 'max-width: 120px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'server_user',
                 'label' => '服务器用户名',
-                'contentOptions' => ['style' => 'max-width: 140px', 'class' => 'text-truncate'],
+                'headerOptions' => ['class' => 'w-1'],
+                'contentOptions' => ['style' => 'max-width: 120px', 'class' => 'text-truncate'],
+            ],
+            [
+                'attribute' => 'pid',
+                'label' => 'PID',
+                'headerOptions' => ['class' => 'w-0'],
             ],
             [
                 'attribute' => 'description',
-                'contentOptions' => ['style' => 'max-width: 250px', 'class' => 'text-truncate'],
+                'value' => function ($job) {
+                    if ($job->use_gpu) {
+                        return Html::img('@web/img/nvidia.svg', ['alt' => 'USE GPU', 'class' => 'inline-logo mr-1']) . $job->description;
+                    } else {
+                        return $job->description;
+                    }
+                },
+                'format' => 'html',
+                'contentOptions' => ['style' => 'max-width: 240px', 'class' => 'text-truncate'],
             ],
             [
                 'attribute' => 'duration',
@@ -57,7 +67,7 @@ YiiAsset::register($this);
                     return Dictionary::findOne(['name' => 'job_duration', 'key' => $job->duration])->value;
                 },
                 'filter' => ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value'),
-                'headerOptions' => ['style' => 'width: 1px'],
+                'headerOptions' => ['class' => 'w-1'],
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

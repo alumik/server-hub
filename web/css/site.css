@@ -84,21 +84,38 @@ button.logout:focus {
     outline: none;
 }
 
+/* link on the navbar */
+a.right-nav-link {
+    padding-top: 7px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 767px) {
+    a.right-nav-link {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+a.right-nav-link:focus,
+a.right-nav-link:hover {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+a.right-nav-link:focus {
+    outline: none;
+}
+
+/* Additional styles */
+
 .jumbotron-logo {
     margin-bottom: 30px;
     max-width: 80%;
     height: 108px;
-}
-
-.progress {
-    height: 30px;
-}
-
-.progress-bar {
-    height: 30px !important;
-    line-height: 30px !important;
-    font-size: 0.875rem;
-    overflow: visible !important;
 }
 
 td {
@@ -112,4 +129,41 @@ td {
     position: fixed;
     left: 0;
     top: 56px;
+}
+
+.server-process tr {
+    height: 20px;
+    line-height: 1rem;
+}
+
+.server-process td {
+    padding: 0.5rem;
+}
+
+.w-0 {
+    width: 60px;
+}
+
+.w-1 {
+    width: 120px;
+}
+
+.w-2 {
+    width: 240px;
+}
+
+.w-3 {
+    width: 360px;
+}
+
+.w-4 {
+    width: 480px;
+}
+
+.w-5 {
+    width: 600px;
+}
+
+.inline-logo {
+    height: 1rem;
 }

@@ -19,7 +19,10 @@
         "yiisoft/yii2-bootstrap4": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "yiisoft/yii2-httpclient": "*",
-        "phpseclib/phpseclib": "~3.0"
+        "phpseclib/phpseclib": "~3.0",
+        "rmrevin/yii2-fontawesome": "~3.7",
+        "2amigos/yii2-chartjs-widget": "^3.0",
+        "bower-asset/momentjs": "^2.29"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

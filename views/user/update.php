@@ -1,18 +1,17 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap4\ActiveForm */
-
-/* @var $model app\models\User */
-
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
+
+/* @var $this yii\web\View */
+/* @var $form yii\bootstrap4\ActiveForm */
+/* @var $model app\models\User */
 
 $this->title = '修改姓名';
 $this->params['breadcrumbs'][] = ['label' => '个人中心', 'url' => '/user'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="user">
+<div class="user-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -26,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-    <?= $form->field($model, 'username')->textInput() ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <div class="row form-group">
         <div class="col-lg-1"></div>

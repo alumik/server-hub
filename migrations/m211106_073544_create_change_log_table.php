@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%change_log}}`.
+ * Handles the creation of table `{{%changelog}}`.
  */
 class m211106_073544_create_change_log_table extends Migration
 {
@@ -12,9 +12,9 @@ class m211106_073544_create_change_log_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%change_log}}', [
+        $this->createTable('{{%changelog}}', [
             'id' => $this->primaryKey(),
-            'text' => $this->text()->notNull(),
+            'content' => $this->text()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);
@@ -25,6 +25,6 @@ class m211106_073544_create_change_log_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%change_log}}');
+        $this->dropTable('{{%changelog}}');
     }
 }
