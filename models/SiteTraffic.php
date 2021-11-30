@@ -97,21 +97,35 @@ class SiteTraffic extends ActiveRecord
 
     public static function getViewCountHistory($limit = 10)
     {
-        $viewCountHistory = ArrayHelper::map(SiteTraffic::find()
+        $query = ArrayHelper::map(SiteTraffic::find()
             ->select(['date', 'data' => 'SUM(view_count)'])
             ->where(['<>', 'id_user', 1])
             ->groupBy('date')
-            ->orderBy(['date' => SORT_DESC])
             ->limit($limit)
             ->asarray()
             ->all(), 'date', 'data');
+        $viewCountHistory = [];
         for ($offset = 0; $offset < $limit; $offset++) {
             $date = date('Y-m-d', time() - $offset * 24 * 3600);
-            if (!key_exists($date, $viewCountHistory)) {
-                $viewCountHistory[$date] = 0;
-            }
+            $viewCountHistory[$date] = key_exists($date, $query) ? intval($query[$date]) : 0;
         }
         return $viewCountHistory;
+    }
+
+    public static function getUserCountHistory($limit = 10)
+    {
+        $query = ArrayHelper::map(SiteTraffic::find()
+            ->select(['date', 'data' => 'COUNT(*)'])
+            ->groupBy('date')
+            ->limit($limit)
+            ->asarray()
+            ->all(), 'date', 'data');
+        $userCountHistory = [];
+        for ($offset = 0; $offset < $limit; $offset++) {
+            $date = date('Y-m-d', time() - $offset * 24 * 3600);
+            $userCountHistory[$date] = key_exists($date, $query) ? intval($query[$date]) : 0;
+        }
+        return $userCountHistory;
     }
 
     public function getUser()

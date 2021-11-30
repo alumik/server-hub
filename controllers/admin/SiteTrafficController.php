@@ -41,16 +41,20 @@ class SiteTrafficController extends Controller
         $dataProvider = $searchModel->search($this->request->queryParams);
 
         $viewCountTotal = SiteTraffic::getTotalViewCount();
-        $viewCountToday = SiteTraffic::getTotalViewCount(date('Y-m-d'));
-        $viewCountHistory = SiteTraffic::getViewCountHistory();
+        $viewCountHistory = SiteTraffic::getViewCountHistory(14);
+        $userCountHistory = SiteTraffic::getUserCountHistory(14);
+        $viewCountToday = $viewCountHistory[date('Y-m-d')];
+        $userCountToday = $userCountHistory[date('Y-m-d')];
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'viewCountHistory' => $viewCountHistory,
+            'userCountHistory' => $userCountHistory,
             'model' => [
                 'view_count_total' => $viewCountTotal,
                 'view_count_today' => $viewCountToday,
+                'user_count_today' => $userCountToday,
             ],
         ]);
     }

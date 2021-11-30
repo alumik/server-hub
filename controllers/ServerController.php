@@ -48,6 +48,10 @@ class ServerController extends Controller
         $request = $client->createRequest()
             ->setMethod('GET')
             ->setUrl('http://10.10.1.210:9090/api/v1/query');
+        $gpuUsage = $this->queryPrometheus(
+            $request, 'nvidia_smi_utilization_gpu_ratio', 'metric.uuid', 'metric.instance');
+        $usedGpuMem = $this->queryPrometheus(
+            $request, 'nvidia_smi_memory_used_bytes', 'metric.uuid', 'metric.instance');
         $freeGpuMem = $this->queryPrometheus(
             $request, 'nvidia_smi_memory_free_bytes', 'metric.uuid', 'metric.instance');
         $memUsage = $this->queryPrometheus(
@@ -60,6 +64,8 @@ class ServerController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'gpuUsage' => $gpuUsage,
+            'usedGpuMem' => $usedGpuMem,
             'freeGpuMem' => $freeGpuMem,
             'memUsage' => $memUsage,
             'cpuUsage' => $cpuUsage,

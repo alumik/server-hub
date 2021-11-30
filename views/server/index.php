@@ -8,6 +8,8 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ServerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $gpuUsage array */
+/* @var $usedGpuMem array */
 /* @var $freeGpuMem array */
 /* @var $memUsage array */
 /* @var $cpuUsage array */
@@ -66,6 +68,7 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
     <?php Pjax::begin(['id' => 'server']) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'columns' => [
             [
                 'attribute' => 'name',
@@ -96,31 +99,35 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                 'headerOptions' => ['class' => 'w-1'],
             ],
             [
-                'label' => '可用显存',
-                'value' => function ($model) use ($freeGpuMem) {
+                'label' => 'GPU 使用',
+                'value' => function ($model) use ($gpuUsage, $usedGpuMem, $freeGpuMem) {
                     $instance = $model->gpu_instance;
                     if (!$instance || !key_exists($instance, $freeGpuMem)) {
                         return '';
                     }
-                    $gpuDashboard = '';
-                    foreach ($freeGpuMem[$instance] as $uuid => $_freeGpuMem) {
-                        if ($_freeGpuMem < 2 * 1024 * 1024 * 1024) {
-                            $class = 'text-danger';
-                        } elseif ($_freeGpuMem < 24 * 1024 * 1024 * 1024) {
-                            $class = 'text-dark';
-                        } else {
+                    $gpuUsageStr = Html::tag('div', '使用率<br/>已用显存<br/>可用显存', ['class' => 'gpu-info d-inline-block text-muted']);
+                    foreach ($gpuUsage[$instance] as $uuid => $_gpuUsage) {
+                        $gpuUsageStr .= Html::beginTag('div', ['class' => 'gpu-info d-inline-block']);
+                        if ($_gpuUsage < 0.7) {
                             $class = 'text-success';
+                        } elseif ($_gpuUsage < 0.9) {
+                            $class = 'text-warning';
+                        } else {
+                            $class = 'text-danger';
                         }
-                        $gpuDashboard .= Html::a(
-                            formatBytes($_freeGpuMem),
+                        $gpuUsageStr .= Html::a(
+                            formatPercentage($_gpuUsage * 100),
                             ['/server/gpu-dashboard', 'instance' => $instance, 'uuid' => $uuid],
                             ['class' => $class]
                         );
-                        $gpuDashboard .= ' | ';
+                        $gpuUsageStr .= '<br/>' . formatBytes($usedGpuMem[$instance][$uuid]);
+                        $gpuUsageStr .= '<br/>' . formatBytes($freeGpuMem[$instance][$uuid]);
+                        $gpuUsageStr .= Html::endTag('div');
                     }
-                    return substr($gpuDashboard, 0, -3);
+                    return $gpuUsageStr;
                 },
                 'format' => 'raw',
+                'contentOptions' => ['class' => 'text-nowrap'],
             ],
             [
                 'label' => '作业数',
@@ -129,28 +136,28 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {process} {dashboard}',
+                'template' => '{view} {dashboard} {process}',
                 'buttons' => [
                     'view' => function ($url) {
-                        return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary']);
-                    },
-                    'process' => function ($url, $model) use ($freeGpuMem) {
-                        $gpuProcess = '';
-                        $instance = $model->gpu_instance;
-                        if ($instance && key_exists($instance, $freeGpuMem)) {
-                            $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary']);
-                        }
-                        return Html::beginTag('div', ['class' => 'btn-group', 'role' => 'group']) .
-                            Html::a('CPU 进程', $url, ['class' => 'btn btn-sm btn-outline-primary']) .
-                            $gpuProcess .
-                            Html::endTag('div');
+                        return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]);
                     },
                     'dashboard' => function ($url, $model) {
                         return Html::a(
                             '仪表板',
                             ['/server/dashboard', 'instance' => $model->instance],
-                            ['class' => 'btn btn-sm btn-outline-primary']
+                            ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]
                         );
+                    },
+                    'process' => function ($url, $model) use ($freeGpuMem) {
+                        $gpuProcess = '';
+                        $instance = $model->gpu_instance;
+                        if ($instance && key_exists($instance, $freeGpuMem)) {
+                            $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]);
+                        }
+                        return '<br/>' . Html::beginTag('div', ['class' => 'btn-group mt-1', 'role' => 'group']) .
+                            Html::a('CPU 进程', $url, ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]) .
+                            $gpuProcess .
+                            Html::endTag('div');
                     },
                 ],
             ],

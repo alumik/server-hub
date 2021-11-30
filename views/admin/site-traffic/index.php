@@ -9,12 +9,16 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model array */
 /* @var $viewCountHistory array */
+/* @var $userCountHistory array */
 /* @var $searchModel app\models\SiteTrafficSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '访问记录';
 $this->params['breadcrumbs'][] = '管理后台';
 $this->params['breadcrumbs'][] = $this->title;
+
+$fontFamilyEn = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
+
 MomentJsAsset::register($this);
 ?>
 <div class="site-traffic-index">
@@ -23,7 +27,7 @@ MomentJsAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
-        'template' => '<tr><th class="w-1">{label}</th><td>{value}</td></tr>',
+        'template' => '<tr><th class="w-2">{label}</th><td>{value}</td></tr>',
         'attributes' => [
             [
                 'attribute' => 'view_count_total',
@@ -33,16 +37,18 @@ MomentJsAsset::register($this);
                 'attribute' => 'view_count_today',
                 'label' => '今日访问量',
             ],
+            [
+                'attribute' => 'user_count_today',
+                'label' => '今日访问用户数',
+            ],
         ],
     ]) ?>
 
     <div class="chart-container position-relative mb-3">
-
-        <?php $fontFamilyEn = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"' ?>
         <?= ChartJs::widget([
             'type' => 'line',
             'options' => [
-                'height' => '240px',
+                'height' => '180px',
             ],
             'data' => [
                 'labels' => array_keys($viewCountHistory),
@@ -68,13 +74,11 @@ MomentJsAsset::register($this);
                             'time' => [
                                 'unit' => 'day',
                                 'displayFormats' => [
-                                    'day' => 'YYYY/MM/DD',
+                                    'day' => 'MM/DD',
                                 ],
                                 'tooltipFormat' => 'YYYY/MM/DD',
                             ],
                             'ticks' => [
-                                'min' => date('Y-m-d', time() - 9 * 24 * 3600),
-                                'max' => date('Y-m-d', time()),
                                 'fontColor' => '#000',
                                 'fontSize' => 16,
                                 'fontFamily' => $fontFamilyEn,
@@ -109,7 +113,77 @@ MomentJsAsset::register($this);
                 ],
             ],
         ]) ?>
+    </div>
 
+    <div class="chart-container position-relative mb-3">
+        <?= ChartJs::widget([
+            'type' => 'line',
+            'options' => [
+                'height' => '180px',
+            ],
+            'data' => [
+                'labels' => array_keys($userCountHistory),
+                'datasets' => [
+                    [
+                        'data' => array_values($userCountHistory),
+                        'fill' => true,
+                        'borderColor' => '#343a40',
+                        'backgroundColor' => 'rgba(82, 88, 93, 0.2)',
+                        'pointBackgroundColor' => '#343a40',
+                    ],
+                ],
+            ],
+            'clientOptions' => [
+                'maintainAspectRatio' => false,
+                'legend' => [
+                    'display' => false,
+                ],
+                'scales' => [
+                    'xAxes' => [
+                        [
+                            'type' => 'time',
+                            'time' => [
+                                'unit' => 'day',
+                                'displayFormats' => [
+                                    'day' => 'MM/DD',
+                                ],
+                                'tooltipFormat' => 'YYYY/MM/DD',
+                            ],
+                            'ticks' => [
+                                'fontColor' => '#000',
+                                'fontSize' => 16,
+                                'fontFamily' => $fontFamilyEn,
+                                'padding' => 10,
+                            ],
+                            'gridLines' => [
+                                'drawTicks' => false,
+                            ],
+                        ],
+                    ],
+                    'yAxes' => [
+                        [
+                            'ticks' => [
+                                'fontColor' => '#000',
+                                'fontSize' => 16,
+                                'fontFamily' => $fontFamilyEn,
+                                'beginAtZero' => true,
+                                'padding' => 10,
+                            ],
+                            'scaleLabel' => [
+                                'display' => true,
+                                'labelString' => '访问用户数',
+                                'fontColor' => '#000',
+                                'fontSize' => 16,
+                                'fontFamily' => $fontFamilyEn,
+                            ],
+                            'gridLines' => [
+                                'drawTicks' => false,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]) ?>
     </div>
 
     <h2>详细访问记录</h2>
