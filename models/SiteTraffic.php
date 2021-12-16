@@ -80,27 +80,21 @@ class SiteTraffic extends ActiveRecord
         $model->save();
     }
 
-    public static function getTotalViewCount($date = null, $idUser = null)
+    public static function getTotalViewCount()
     {
-        $query = SiteTraffic::find()
-            ->select('SUM(view_count)');
-        if ($idUser) {
-            $query->andWhere(['id_user' => $idUser]);
-        } else {
-            $query->andWhere(['<>', 'id_user', 1]);
-        }
-        if ($date) {
-            $query->andWhere(['date' => $date]);
-        }
-        return $query->scalar();
+        return SiteTraffic::find()
+            ->select('SUM(view_count)')
+            ->where(['<>', 'id_user', 1])
+            ->scalar();
     }
 
-    public static function getViewCountHistory($limit = 10)
+    public static function getViewCountHistory($limit)
     {
         $query = ArrayHelper::map(SiteTraffic::find()
             ->select(['date', 'data' => 'SUM(view_count)'])
             ->where(['<>', 'id_user', 1])
             ->groupBy('date')
+            ->orderBy(['date' => SORT_DESC])
             ->limit($limit)
             ->asarray()
             ->all(), 'date', 'data');
@@ -112,11 +106,12 @@ class SiteTraffic extends ActiveRecord
         return $viewCountHistory;
     }
 
-    public static function getUserCountHistory($limit = 10)
+    public static function getUserCountHistory($limit)
     {
         $query = ArrayHelper::map(SiteTraffic::find()
             ->select(['date', 'data' => 'COUNT(*)'])
             ->groupBy('date')
+            ->orderBy(['date' => SORT_DESC])
             ->limit($limit)
             ->asarray()
             ->all(), 'date', 'data');

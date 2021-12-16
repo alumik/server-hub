@@ -76,7 +76,7 @@ MomentJsAsset::register($this);
                                 'displayFormats' => [
                                     'day' => 'MM/DD',
                                 ],
-                                'tooltipFormat' => 'YYYY/MM/DD',
+                                'tooltipFormat' => 'YYYY/MM/DD ddd',
                             ],
                             'ticks' => [
                                 'fontColor' => '#000',
@@ -147,7 +147,7 @@ MomentJsAsset::register($this);
                                 'displayFormats' => [
                                     'day' => 'MM/DD',
                                 ],
-                                'tooltipFormat' => 'YYYY/MM/DD',
+                                'tooltipFormat' => 'YYYY/MM/DD ddd',
                             ],
                             'ticks' => [
                                 'fontColor' => '#000',
