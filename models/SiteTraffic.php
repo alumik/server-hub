@@ -85,7 +85,7 @@ class SiteTraffic extends ActiveRecord
         return SiteTraffic::find()
             ->select('SUM(view_count)')
             ->where(['<>', 'id_user', 1])
-            ->scalar();
+            ->scalar() ?: 0;
     }
 
     public static function getViewCountHistory($limit)

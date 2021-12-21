@@ -34,14 +34,14 @@ class m211108_064743_create_dictionary_table extends Migration
         $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '6', 'value' => '两周', 'sort' => 6]);
         $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '7', 'value' => '三周', 'sort' => 7]);
         $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '8', 'value' => '长期', 'sort' => 8]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '1', 'value' => '1555200000', 'sort' => 1]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '2', 'value' => '3600', 'sort' => 2]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '3', 'value' => '86400', 'sort' => 3]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '4', 'value' => '604800', 'sort' => 4]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '5', 'value' => '1209600', 'sort' => 5]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '6', 'value' => '1814400', 'sort' => 6]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '7', 'value' => '2419200', 'sort' => 7]);
-        $this->insert('{{%dictionary}}', ['name' => 'job_duration', 'key' => '8', 'value' => '1555200000', 'sort' => 8]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '1', 'value' => '1555200000', 'sort' => 1]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '2', 'value' => '3600', 'sort' => 2]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '3', 'value' => '86400', 'sort' => 3]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '4', 'value' => '604800', 'sort' => 4]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '5', 'value' => '1209600', 'sort' => 5]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '6', 'value' => '1814400', 'sort' => 6]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '7', 'value' => '2419200', 'sort' => 7]);
+        $this->insert('{{%dictionary}}', ['name' => 'job_duration_sec', 'key' => '8', 'value' => '1555200000', 'sort' => 8]);
     }
 
     /**
