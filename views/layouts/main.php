@@ -48,6 +48,7 @@ AppAsset::register($this);
             $menuItems[] = [
                 'label' => '管理后台',
                 'items' => [
+                    ['label' => '服务器管理', 'url' => ['/admin/server/index']],
                     ['label' => '用户管理', 'url' => ['/admin/user/index']],
                     ['label' => '公告管理', 'url' => ['/admin/message/index']],
                     ['label' => '反馈管理', 'url' => ['/admin/feedback/index']],

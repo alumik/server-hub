@@ -42,7 +42,9 @@ class ServerController extends Controller
     public function actionIndex()
     {
         $searchModel = new ServerSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $params = $this->request->queryParams;
+        $params['ServerSearch']['show'] = 1;
+        $dataProvider = $searchModel->search($params);
 
         $client = new Client();
         $request = $client->createRequest()

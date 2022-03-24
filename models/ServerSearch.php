@@ -4,22 +4,40 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use app\models\Server;
 
+/**
+ * ServerSearch represents the model behind the search form of `app\models\Server`.
+ */
 class ServerSearch extends Server
 {
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
-            ['name', 'safe'],
+            [['id', 'show', 'show_gpu'], 'integer'],
+            [['name', 'instance', 'gpu_instance', 'ip', 'ssh_user'], 'safe'],
         ];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
 
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $query = Server::find();
@@ -39,7 +57,18 @@ class ServerSearch extends Server
             return $dataProvider;
         }
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'show' => $this->show,
+            'show_gpu' => $this->show_gpu,
+        ]);
+
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'instance', $this->instance])
+            ->andFilterWhere(['like', 'gpu_instance', $this->gpu_instance])
+            ->andFilterWhere(['like', 'ip', $this->ip])
+            ->andFilterWhere(['like', 'ssh_user', $this->ssh_user]);
 
         return $dataProvider;
     }

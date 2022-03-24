@@ -102,7 +102,7 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                 'label' => 'GPU 使用',
                 'value' => function ($model) use ($gpuUsage, $usedGpuMem, $freeGpuMem) {
                     $instance = $model->gpu_instance;
-                    if (!$instance || !key_exists($instance, $freeGpuMem)) {
+                    if (!$instance || !key_exists($instance, $freeGpuMem) || !$model->show_gpu) {
                         return '';
                     }
                     $gpuUsageStr = Html::tag('div', '使用率<br/>已用显存<br/>可用显存', ['class' => 'gpu-info d-inline-block text-muted']);
@@ -151,7 +151,7 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                     'process' => function ($url, $model) use ($freeGpuMem) {
                         $gpuProcess = '';
                         $instance = $model->gpu_instance;
-                        if ($instance && key_exists($instance, $freeGpuMem)) {
+                        if ($instance && key_exists($instance, $freeGpuMem) && $model->show_gpu) {
                             $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]);
                         }
                         return '<br/>' . Html::beginTag('div', ['class' => 'btn-group mt-1', 'role' => 'group']) .

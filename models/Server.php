@@ -12,6 +12,8 @@ use yii\db\Expression;
  * @property string $gpu_instance
  * @property string $ip
  * @property string $ssh_user
+ * @property boolean $show
+ * @property boolean $show_gpu
  *
  * @property int $jobs
  */
@@ -28,6 +30,7 @@ class Server extends ActiveRecord
             [['name', 'instance', 'ip', 'ssh_user'], 'required'],
             [['name', 'instance', 'gpu_instance', 'ip', 'ssh_user'], 'string', 'max' => 255],
             [['name', 'instance', 'gpu_instance', 'ip'], 'unique'],
+            [['show', 'show_gpu'], 'boolean'],
         ];
     }
 
@@ -40,6 +43,8 @@ class Server extends ActiveRecord
             'gpu_instance' => 'GPU 实例',
             'ip' => 'IP',
             'ssh_user' => 'SSH 用户名',
+            'show' => '显示',
+            'show_gpu' => '显示 GPU',
         ];
     }
 
