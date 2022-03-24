@@ -139,13 +139,13 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                 'template' => '{view} {dashboard} {process}',
                 'buttons' => [
                     'view' => function ($url) {
-                        return Html::a('作业记录', $url, ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]);
+                        return Html::a('<i class="fa fa-clipboard"></i> 作业记录', $url, ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0]);
                     },
                     'dashboard' => function ($url, $model) {
                         return Html::a(
-                            '仪表板',
+                            '<i class="fa fa-tachometer-alt"></i> 仪表板',
                             ['/server/dashboard', 'instance' => $model->instance],
-                            ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]
+                            ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0]
                         );
                     },
                     'process' => function ($url, $model) use ($freeGpuMem) {
