@@ -26,7 +26,13 @@ $this->params['breadcrumbs'][] = '更新';
 
         <?= $form
             ->field($model, 'duration')
-            ->dropdownList(ArrayHelper::map(Dictionary::find()->where(['name' => 'job_duration'])->orderBy('sort')->all(), 'key', 'value')) ?>
+            ->dropdownList(ArrayHelper::map(
+                    Dictionary::find()
+                        ->where(['name' => 'job_duration', 'enabled' => true])
+                        ->orderBy('sort')
+                        ->all(),
+                    'key',
+                    'value')) ?>
 
         <?= $form
             ->field($model, 'id_server')

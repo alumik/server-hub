@@ -10,6 +10,7 @@ use yii\db\ActiveRecord;
  * @property string $key
  * @property string $value
  * @property int $sort
+ * @property boolean $enabled
  */
 class Dictionary extends ActiveRecord
 {
@@ -25,6 +26,7 @@ class Dictionary extends ActiveRecord
             [['sort'], 'integer'],
             [['name', 'key', 'value'], 'string', 'max' => 255],
             [['name', 'key'], 'unique', 'targetAttribute' => ['name', 'key']],
+            ['enabled', 'boolean'],
         ];
     }
 }
