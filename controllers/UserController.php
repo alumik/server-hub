@@ -38,6 +38,9 @@ class UserController extends Controller
         $params['JobSearch']['id_user'] = $user->id;
         $params['JobSearch']['show_outdated'] = true;
         $dataProvider = $searchModel->search($params);
+        if (!isset($params['JobSearch']['status']))      {
+            $dataProvider->query->andWhere(['job.status' => 0]);
+        }
 
         Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
 
