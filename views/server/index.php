@@ -43,7 +43,7 @@ function formatPercentage($value)
 function gauge($instance, $values, $thresholds)
 {
     if (!key_exists($instance, $values)) {
-        return '';
+        return Html::tag('div', '未知', ['class' => 'text-muted']);
     }
     $percent = $values[$instance] * 100;
     $class = getBackgroundColorClass($percent, $thresholds[0], $thresholds[1]);
@@ -102,8 +102,11 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                 'label' => 'GPU 使用',
                 'value' => function ($model) use ($gpuUsage, $usedGpuMem, $freeGpuMem) {
                     $instance = $model->gpu_instance;
-                    if (!$instance || !key_exists($instance, $freeGpuMem) || !$model->show_gpu) {
-                        return '';
+                    if (!$instance || !key_exists($instance, $freeGpuMem)) {
+                        return Html::tag('div', '无 GPU', ['class' => 'text-muted']);
+                    }
+                    if (!$model->show_gpu) {
+                        return Html::tag('div', '信息不可用', ['class' => 'text-muted']);
                     }
                     $gpuUsageStr = Html::tag('div', '使用率<br/>已用显存<br/>可用显存', ['class' => 'gpu-info d-inline-block text-muted']);
                     foreach ($gpuUsage[$instance] as $uuid => $_gpuUsage) {
@@ -145,17 +148,17 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                         return Html::a(
                             '<i class="fa fa-tachometer-alt"></i> 仪表板',
                             ['/server/dashboard', 'instance' => $model->instance],
-                            ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0]
+                            ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0, 'target' => '_blank']
                         );
                     },
                     'process' => function ($url, $model) use ($freeGpuMem) {
                         $gpuProcess = '';
                         $instance = $model->gpu_instance;
                         if ($instance && key_exists($instance, $freeGpuMem) && $model->show_gpu) {
-                            $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]);
+                            $gpuProcess = Html::a('GPU 进程', ['gpu-process', 'id' => $model->id], ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0, 'target' => '_blank']);
                         }
                         return '<br/>' . Html::beginTag('div', ['class' => 'btn-group mt-1', 'role' => 'group']) .
-                            Html::a('CPU 进程', $url, ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0]) .
+                            Html::a('CPU 进程', $url, ['class' => 'btn btn-sm btn-outline-primary', 'data-pjax' => 0, 'target' => '_blank']) .
                             $gpuProcess .
                             Html::endTag('div');
                     },
@@ -166,7 +169,8 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
     <?php Pjax::end() ?>
 
     <p>
-        注：<strong>平均负载</strong>定义为 5 分钟内平均进程数与 CPU 逻辑核心数之比。平均负载大于 100% 表明服务器负载过大，大于 500% 则不应在服务器上执行更多任务。
+        注：<strong>平均负载</strong>定义为 5 分钟内平均进程数与 CPU 逻辑核心数之比。平均负载大于 100% 表明服务器负载过大，大于
+        500% 则不应在服务器上执行更多任务。
     </p>
 
 </div>

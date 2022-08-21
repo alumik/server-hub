@@ -30,7 +30,9 @@ class JobController extends Controller
 
     public function actionIndex()
     {
-        Yii::$app->session->setFlash('danger', '请务必准确填写和及时更新 PID。平台每隔30分钟会定期清理一次未登记的 GPU 进程。');
+        // TODO: Make this warning configurable.
+        // Yii::$app->session->setFlash('danger', '请务必准确填写和及时更新 PID。平台每隔30分钟会定期清理一次未登记的 GPU 进程。');
+
         Yii::$app->session->set('userView' . Yii::$app->user->id . 'returnURL', Yii::$app->request->url);
         SiteTraffic::register();
 
