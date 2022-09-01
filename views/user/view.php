@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Dictionary;
+use app\models\Job;
 use app\models\Server;
 use yii\bootstrap4\Html;
 use yii\grid\GridView;
@@ -103,6 +104,12 @@ YiiAsset::register($this);
                 'filter' => ['进行中', '已完成', '已失效'],
                 'headerOptions' => ['class' => 'w-1'],
                 'format' => 'html',
+                'contentOptions' => function ($job) {
+                    if ($job->status == Job::STATUS_ACTIVE) {
+                        return ['class' => 'text-success'];
+                    }
+                    return [];
+                },
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
