@@ -93,7 +93,7 @@ AppAsset::register($this);
         <p class="float-left">&copy; 南开大学软件学院 <?= date('Y') ?></p>
         <p class="float-right">
             <?= Html::a('反馈', '/site/feedback', ['class' => 'text-muted mr-3']) ?>
-            <?= Html::a('使用说明', '/docs/manual.pdf', ['class' => 'text-muted']) ?>
+            <?= Html::a('使用说明', '/docs/manual.pdf', ['class' => 'text-muted mr-3']) ?>
             <?= Html::a('平台版本 ' . Changelog::find()->orderBy(['created_at' => SORT_DESC])->one()->version, '/site/changelog', ['class' => 'text-muted']) ?>
         </p>
     </div>
