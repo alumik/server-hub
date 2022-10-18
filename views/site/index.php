@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap4\Html;
+use yii\helpers\Markdown;
 
 /* @var $messages array */
 
@@ -18,7 +19,7 @@ $this->title = Yii::$app->name;
 
             <div class="bd-callout bd-callout-<?= $message->mode ?>">
                 <i class="far fa-clock float-right text-secondary"> <?=  Yii::$app->formatter->asRelativeTime($message->created_at) ?></i>
-                <?= $message->content ?>
+                <?= Markdown::process($message->content) ?>
             </div>
 
         <?php endforeach ?>
