@@ -24,7 +24,7 @@ class JobController extends Controller
         return Job::getGpuJobPid($server);
     }
 
-    public function actionRegister()
+    public function actionCreate()
     {
         if ($this->request->isPost) {
             $data = $this->request->post();
