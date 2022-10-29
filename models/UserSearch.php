@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 
 class UserSearch extends User
 {
@@ -23,7 +24,13 @@ class UserSearch extends User
 
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()
+            ->leftJoin(['_' =>
+                (new Query())
+                    ->select(['SUM(view_count) as view_count', 'id_user'])
+                    ->from(SiteTraffic::tableName())
+                    ->groupBy('id_user')], 'user.id = _.id_user'
+            );
 
         // add conditions that should always apply here
 
@@ -31,6 +38,10 @@ class UserSearch extends User
             'query' => $query,
             'sort' => ['defaultOrder' => ['id' => SORT_ASC]],
         ]);
+        $dataProvider->sort->attributes['view_count'] = [
+            'asc' => ['view_count' => SORT_ASC],
+            'desc' => ['view_count' => SORT_DESC],
+        ];
 
         $this->load($params);
 
