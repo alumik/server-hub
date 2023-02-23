@@ -31,7 +31,7 @@ YiiAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
-        'template' => '<tr><th class="w-1">{label}</th><td>{value}</td></tr>',
+        'template' => '<tr><th class="w-1">{label}</th><td{contentOptions}>{value}</td></tr>',
         'attributes' => [
             [
                 'attribute' => 'mode',
@@ -45,7 +45,7 @@ YiiAsset::register($this);
             ],
             [
                 'attribute' => 'content',
-                'format' => 'html',
+                'contentOptions' => ['style' => 'white-space: pre-wrap'],
             ],
             [
                 'attribute' => 'created_at',

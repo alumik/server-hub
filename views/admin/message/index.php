@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'content',
-                'format' => 'html',
                 'contentOptions' => ['style' => 'max-width: 480px', 'class' => 'text-truncate'],
             ],
             [
