@@ -17,9 +17,9 @@ $this->title = Yii::$app->name;
     <div class="body-content">
         <?php foreach ($messages as $message): ?>
 
-            <div class="bd-callout bd-callout-<?= $message->mode ?>">
-                <i class="far fa-clock float-right text-secondary"> <?=  Yii::$app->formatter->asRelativeTime($message->created_at) ?></i>
-                <?= Markdown::process($message->content) ?>
+            <div class="bd-callout bd-callout-<?= $message->mode ?> d-flex flex-row justify-content-between">
+                <div><?= Markdown::process($message->content) ?></div>
+                <div class="far fa-clock text-secondary text-nowrap text-right ml-3"> <?=  Yii::$app->formatter->asRelativeTime($message->created_at) ?></div>
             </div>
 
         <?php endforeach ?>
