@@ -47,8 +47,13 @@ class Job extends ActiveRecord
                     ActiveRecord::EVENT_BEFORE_INSERT => 'id_user',
                     ActiveRecord::EVENT_BEFORE_UPDATE => false,
                 ],
-                'value' => function () {
-                    return Yii::$app->user->id;
+                'value' => function ($event) {
+                    $model = $event->sender;
+                    if ($model->id_user === null) {
+                        return Yii::$app->user->id;
+                    } else {
+                        return $model->id_user;
+                    }
                 },
             ]
         ];
