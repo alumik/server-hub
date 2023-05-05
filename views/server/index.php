@@ -139,18 +139,18 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
             ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {dashboard} {process}',
+                'template' => '{view} {process}',
                 'buttons' => [
                     'view' => function ($url) {
                         return Html::a('<i class="fa fa-clipboard"></i> 作业记录', $url, ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0]);
                     },
-                    'dashboard' => function ($url, $model) {
-                        return Html::a(
-                            '<i class="fa fa-tachometer-alt"></i> 仪表板',
-                            ['/server/dashboard', 'instance' => $model->instance],
-                            ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0, 'target' => '_blank']
-                        );
-                    },
+//                    'dashboard' => function ($url, $model) {
+//                        return Html::a(
+//                            '<i class="fa fa-tachometer-alt"></i> 仪表板',
+//                            ['/server/dashboard', 'instance' => $model->instance],
+//                            ['class' => 'btn btn-sm btn-primary', 'data-pjax' => 0, 'target' => '_blank']
+//                        );
+//                    },
                     'process' => function ($url, $model) use ($freeGpuMem) {
                         $gpuProcess = '';
                         $instance = $model->gpu_instance;
