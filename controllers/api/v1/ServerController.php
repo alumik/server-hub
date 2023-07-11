@@ -23,7 +23,7 @@ class ServerController extends Controller
             $data = $this->request->post();
             $model = new KillHistory();
             $model->created_at = time();
-            $model->id_server = Server::findOne(['name' => $data['server'] . ' 服务器'])->id;
+            $model->id_server = Server::findOne(['ip' => $data['server']])->id;
             $model->pid = $data['pid'];
             $model->user = $data['user'];
             $model->command = $data['command'];

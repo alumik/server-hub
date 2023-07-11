@@ -109,7 +109,7 @@ class Job extends ActiveRecord
             ->select('pid')
             ->leftJoin(Server::tableName(), 'id_server = server.id')
             ->leftJoin(['duration_sec' => $durationSec], 'duration = duration_sec.key')
-            ->where(['status' => 0, 'use_gpu' => true, 'name' => "$server 服务器"])
+            ->where(['status' => 0, 'use_gpu' => true, 'server.ip' => $server])
             ->andWhere(['not', ['pid' => null]])
             ->andWhere([
                 '<',
