@@ -31,23 +31,31 @@ class JobController extends Controller
             $student_id = $data['student_id'];
             $password = $data['password'];
 
-            $user = User::findOne(['student_id' => $student_id]);
-            if ($user && $user->validatePassword($password)) {
-                $job = new Job();
-                $job->description = $data['description'];
-                $job->status = Job::STATUS_ACTIVE;
-                $job->id_server = Server::findOne(['ip' => $data['server_ip']])->id;
-                $job->id_user = $user->id;
-                $job->duration = Dictionary::findOne(['name' => 'job_duration', 'value' => $data['duration']])->key;
-                $job->pid = $data['pid'];
-                $job->server_user = $data['server_user'];
-                $job->comm = $data['command'] ?? '';
-                $job->use_gpu = $data['use_gpu'];
-                if ($job->save()) {
-                    return ['message' => 'success'];
-                } else {
-                    return ['message' => $job->errors];
+            try {
+                $user = User::findOne(['student_id' => $student_id]);
+                if ($user && $user->validatePassword($password)) {
+                    $job = new Job();
+                    $job->description = $data['description'];
+                    $job->status = Job::STATUS_ACTIVE;
+                    $job->id_server = Server::findOne(['ip' => $data['server_ip']])->id;
+                    $job->id_user = $user->id;
+                    $job->duration = Dictionary::findOne([
+                        'name' => 'job_duration',
+                        'value' => $data['duration'],
+                        'enabled' => true,
+                    ])->key;
+                    $job->pid = $data['pid'];
+                    $job->server_user = $data['server_user'];
+                    $job->comm = $data['command'] ?? '';
+                    $job->use_gpu = $data['use_gpu'];
+                    if ($job->save()) {
+                        return ['message' => 'success'];
+                    } else {
+                        return ['message' => 'job creation failed. reason: ' . json_encode($job->errors, JSON_UNESCAPED_UNICODE)];
+                    }
                 }
+            } catch (\Exception $e) {
+                return ['message' => 'job creation failed. reason: ' . $e->getMessage()];
             }
         }
         return ['message' => 'authentication failed'];
