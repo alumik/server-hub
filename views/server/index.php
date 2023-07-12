@@ -71,7 +71,7 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
         'filterModel' => $searchModel,
         'columns' => [
             [
-                'attribute' => 'name',
+                'attribute' => 'ip',
                 'headerOptions' => ['class' => 'w-1'],
             ],
             [

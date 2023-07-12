@@ -57,8 +57,8 @@ YiiAsset::register($this);
             ],
             [
                 'attribute' => 'id_server',
-                'value' => 'server.name',
-                'filter' => ArrayHelper::map(Server::find()->all(), 'id', 'name'),
+                'value' => 'server.ip',
+                'filter' => ArrayHelper::map(Server::find()->all(), 'id', 'ip'),
                 'headerOptions' => ['class' => 'w-1'],
             ],
             [

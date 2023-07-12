@@ -42,8 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'id_server',
-                'value' => 'server.name',
-                'filter' => ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name'),
+                'value' => 'server.ip',
+                'filter' => ArrayHelper::map(Server::find()->orderBy('ip')->all(), 'id', 'ip'),
                 'headerOptions' => ['class' => 'w-1'],
             ],
             [

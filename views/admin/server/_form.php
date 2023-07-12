@@ -12,13 +12,11 @@ use yii\bootstrap4\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ip')->textInput(['maxlength' => true])->label('服务器 IP') ?>
 
     <?= $form->field($model, 'instance')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'gpu_instance')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'ip')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'ssh_user')->textInput(['maxlength' => true]) ?>
 

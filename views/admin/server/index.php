@@ -23,10 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            'name',
+            'ip',
             'instance',
             'gpu_instance',
-            'ip',
             'ssh_user',
             [
                 'attribute' => 'show',

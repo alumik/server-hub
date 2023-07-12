@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Server;
 
 /**
  * ServerSearch represents the model behind the search form of `app\models\Server`.
@@ -18,7 +17,7 @@ class ServerSearch extends Server
     {
         return [
             [['id', 'show', 'show_gpu'], 'integer'],
-            [['name', 'instance', 'gpu_instance', 'ip', 'ssh_user'], 'safe'],
+            [['instance', 'gpu_instance', 'ip', 'ssh_user'], 'safe'],
         ];
     }
 
@@ -46,7 +45,7 @@ class ServerSearch extends Server
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => ['defaultOrder' => ['name' => SORT_ASC]],
+            'sort' => ['defaultOrder' => ['ip' => SORT_ASC]],
         ]);
 
         $this->load($params);
@@ -64,8 +63,7 @@ class ServerSearch extends Server
             'show_gpu' => $this->show_gpu,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'instance', $this->instance])
+        $query->andFilterWhere(['like', 'instance', $this->instance])
             ->andFilterWhere(['like', 'gpu_instance', $this->gpu_instance])
             ->andFilterWhere(['like', 'ip', $this->ip])
             ->andFilterWhere(['like', 'ssh_user', $this->ssh_user]);

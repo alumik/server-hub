@@ -29,10 +29,7 @@ YiiAsset::register($this);
         'model' => $model,
         'template' => '<tr><th class="w-2">{label}</th><td>{value}</td></tr>',
         'attributes' => [
-            [
-                'attribute' => 'server.name',
-                'label' => '服务器',
-            ],
+            'server.ip',
             'server_user',
             'pid',
             [

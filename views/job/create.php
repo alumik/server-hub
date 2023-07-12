@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = '新建';
 
         <?= $form
             ->field($model, 'id_server')
-            ->dropdownList(ArrayHelper::map(Server::find()->orderBy('name')->all(), 'id', 'name')) ?>
+            ->dropdownList(ArrayHelper::map(Server::find()->orderBy('ip')->all(), 'id', 'ip')) ?>
 
         <?= $form->field($model, 'server_user')->textInput(['maxlength' => true]) ?>
 
