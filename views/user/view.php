@@ -99,9 +99,9 @@ YiiAsset::register($this);
                     if (time() - $job->created_at > $limit && $job->status == 0) {
                         return '<span class="not-set">已过期</span>';
                     }
-                    return ['进行中', '已完成', '已失效'][$job->status];
+                    return ['进行中', '已完成', '已关闭'][$job->status];
                 },
-                'filter' => ['进行中', '已完成', '已失效'],
+                'filter' => ['进行中', '已完成', '已关闭'],
                 'headerOptions' => ['class' => 'w-1'],
                 'format' => 'html',
                 'contentOptions' => function ($job) {

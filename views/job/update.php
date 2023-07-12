@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = '更新';
 
         <?php $form = ActiveForm::begin() ?>
 
-        <?= $form->field($model, 'status')->dropdownList(['进行中', '已完成', '已失效']) ?>
+        <?= $form->field($model, 'status')->dropdownList(['进行中', '已完成', '已关闭']) ?>
 
         <?= $form
             ->field($model, 'duration')

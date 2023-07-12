@@ -55,7 +55,7 @@ YiiAsset::register($this);
         'attributes' => [
             [
                 'attribute' => 'status',
-                'value' => ['进行中', '已完成', '已失效'][$model->status],
+                'value' => ['进行中', '已完成', '已关闭'][$model->status],
             ],
             [
                 'attribute' => 'duration',
