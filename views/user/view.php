@@ -48,6 +48,12 @@ YiiAsset::register($this);
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'firstPageLabel' => '&laquo;',
+            'lastPageLabel' => '&raquo;',
+            'prevPageLabel' => '&lsaquo;',
+            'nextPageLabel' => '&rsaquo;',
+        ],
         'columns' => [
             [
                 'attribute' => 'created_at',

@@ -69,6 +69,12 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'firstPageLabel' => '&laquo;',
+            'lastPageLabel' => '&raquo;',
+            'prevPageLabel' => '&lsaquo;',
+            'nextPageLabel' => '&rsaquo;',
+        ],
         'columns' => [
             [
                 'attribute' => 'ip',

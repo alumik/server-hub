@@ -47,6 +47,12 @@ $this->registerCss('.tooltip-inner{max-width:720px;}')
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pager' => [
+            'firstPageLabel' => '&laquo;',
+            'lastPageLabel' => '&raquo;',
+            'prevPageLabel' => '&lsaquo;',
+            'nextPageLabel' => '&rsaquo;',
+        ],
         'columns' => [
             [
                 'attribute' => 'pid',
