@@ -7,7 +7,7 @@ use yii\bootstrap4\Html;
 /* @var $nvidiaOutput string */
 /* @var $this yii\web\View */
 
-$this->title = $model->name . '当前 GPU 进程';
+$this->title = $model->ip . ' 服务器当前 GPU 进程';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->id;
 $this->params['breadcrumbs'][] = 'GPU 进程';

@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ProcessSearch */
 /* @var $dataProvider yii\data\ArrayDataProvider */
 
-$this->title = $model->name . '当前 CPU 进程';
+$this->title = $model->ip . ' 服务器当前 CPU 进程';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->id;
 $this->params['breadcrumbs'][] = 'CPU 进程';

@@ -11,7 +11,7 @@ use yii\web\YiiAsset;
 /* @var $searchModel app\models\JobSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $model->name . '作业记录';
+$this->title = $model->ip . ' 服务器作业记录';
 $this->params['breadcrumbs'][] = ['label' => '服务器状态', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->id;
 $this->params['breadcrumbs'][] = '作业';
