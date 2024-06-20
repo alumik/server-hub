@@ -114,8 +114,14 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                     if (!$model->show_gpu) {
                         return Html::tag('div', '信息不可用', ['class' => 'text-muted']);
                     }
-                    $gpuUsageStr = Html::tag('div', '使用率<br/>已用显存<br/>可用显存', ['class' => 'gpu-info d-inline-block text-muted']);
+                    $gpuUsageStr = '';
+                    $gpuCounter = 0;
                     foreach ($gpuUsage[$instance] as $uuid => $_gpuUsage) {
+                        $gpuCounter++;
+                        if ($gpuCounter % 4 == 1) {
+                            $gpuUsageStr .= Html::beginTag('div');
+                            $gpuUsageStr .= Html::tag('div', '使用率<br/>已用显存<br/>可用显存', ['class' => 'gpu-info d-inline-block text-muted']);
+                        }
                         $gpuUsageStr .= Html::beginTag('div', ['class' => 'gpu-info d-inline-block']);
                         if ($_gpuUsage < 0.7) {
                             $class = 'text-success';
@@ -132,6 +138,9 @@ $this->registerJs('setInterval(function(){$.pjax.reload({container:"#server"})},
                         $gpuUsageStr .= '<br/>' . formatBytes($usedGpuMem[$instance][$uuid]);
                         $gpuUsageStr .= '<br/>' . formatBytes($freeGpuMem[$instance][$uuid]);
                         $gpuUsageStr .= Html::endTag('div');
+                        if ($gpuCounter % 4 == 0) {
+                            $gpuUsageStr .= Html::endTag('div');
+                        }
                     }
                     return $gpuUsageStr;
                 },
