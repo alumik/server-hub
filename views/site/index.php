@@ -11,7 +11,7 @@ $this->title = Yii::$app->name;
 
     <div class="jumbotron text-center">
         <?= Html::img('@web/img/nankai-logo-full.svg', ['alt' => '南开大学', 'class' => 'jumbotron-logo']) ?>
-        <h1>南开大学软件学院服务器作业管理平台</h1>
+        <h1>南开大学软件学院智能计算实验室<br/>服务器作业管理平台</h1>
     </div>
 
     <div class="body-content">

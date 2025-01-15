@@ -29,7 +29,7 @@ YiiAsset::register($this);
 
     <?= DetailView::widget([
         'model' => $model,
-        'template' => '<tr><th class="w-1">{label}</th><td>{value}</td></tr>',
+        'template' => '<tr><th class="w-1">{label}</th><td class="text-break">{value}</td></tr>',
         'attributes' => [
             [
                 'attribute' => 'created_at',
