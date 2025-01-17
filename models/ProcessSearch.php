@@ -71,7 +71,7 @@ class ProcessSearch extends Model
 
         $ssh = new SSH2($server->ip);
 
-        $key = PublicKeyLoader::load(file_get_contents('/var/www/default/id_rsa'));
+        $key = PublicKeyLoader::load(file_get_contents('../id_rsa'));
         if (!$ssh->login($server->ssh_user, $key)) {
             throw new UnauthorizedHttpException('服务器鉴权失败。');
         }
